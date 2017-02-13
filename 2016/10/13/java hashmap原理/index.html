@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="ios,swift," />
+  <meta name="keywords" content="opencv,android," />
 
 
 
@@ -87,40 +87,16 @@
 
 
 
-<meta name="description" content="由于之前项目都是swift2写的，现在都得做升级，更新到swift3，这边就做下记录。
-
-CGPointMake -&amp;gt; CGPoint
-let point = CGPoint(x: 0,y :0) // x和y的值可以是CGFloat, Double, Int
-
-
-
-CGSizeMake -&amp;gt; CGSize
-let size = CGSize(width: 100, height: 100) //">
+<meta name="description" content="因为公司增加个人用户发布文章模块，这样的话，肯定得要求用户实名制，上传身份证，银行卡这些是必须的，所以必须做图像识别这块，目前因为要求比较简单，只是做银行卡号码识别，自己app这边坐银行卡号绑定，正好以前接触过opencv，于是就用opencv做简单的银行卡号识别。采用的事故 opencv4android sdk,封装好的java文件。具体配置可参考这篇文章">
 <meta property="og:type" content="article">
-<meta property="og:title" content="swift 3.0之后的一些变化">
-<meta property="og:url" content="https://koala99.github.io/2016/09/11/swift-3-0之后的一些变化/index.html">
+<meta property="og:title" content="android 实现银行卡识别">
+<meta property="og:url" content="https://koala99.github.io/2016/10/13/java hashmap原理/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
-<meta property="og:description" content="由于之前项目都是swift2写的，现在都得做升级，更新到swift3，这边就做下记录。
-
-CGPointMake -&amp;gt; CGPoint
-let point = CGPoint(x: 0,y :0) // x和y的值可以是CGFloat, Double, Int
-
-
-
-CGSizeMake -&amp;gt; CGSize
-let size = CGSize(width: 100, height: 100) //">
-<meta property="og:updated_time" content="2017-02-11T05:00:14.000Z">
+<meta property="og:description" content="因为公司增加个人用户发布文章模块，这样的话，肯定得要求用户实名制，上传身份证，银行卡这些是必须的，所以必须做图像识别这块，目前因为要求比较简单，只是做银行卡号码识别，自己app这边坐银行卡号绑定，正好以前接触过opencv，于是就用opencv做简单的银行卡号识别。采用的事故 opencv4android sdk,封装好的java文件。具体配置可参考这篇文章">
+<meta property="og:updated_time" content="2017-02-13T03:15:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="swift 3.0之后的一些变化">
-<meta name="twitter:description" content="由于之前项目都是swift2写的，现在都得做升级，更新到swift3，这边就做下记录。
-
-CGPointMake -&amp;gt; CGPoint
-let point = CGPoint(x: 0,y :0) // x和y的值可以是CGFloat, Double, Int
-
-
-
-CGSizeMake -&amp;gt; CGSize
-let size = CGSize(width: 100, height: 100) //">
+<meta name="twitter:title" content="android 实现银行卡识别">
+<meta name="twitter:description" content="因为公司增加个人用户发布文章模块，这样的话，肯定得要求用户实名制，上传身份证，银行卡这些是必须的，所以必须做图像识别这块，目前因为要求比较简单，只是做银行卡号码识别，自己app这边坐银行卡号绑定，正好以前接触过opencv，于是就用opencv做简单的银行卡号识别。采用的事故 opencv4android sdk,封装好的java文件。具体配置可参考这篇文章">
 
 
 
@@ -148,13 +124,13 @@ let size = CGSize(width: 100, height: 100) //">
 
 
 
-  <link rel="canonical" href="https://koala99.github.io/2016/09/11/swift-3-0之后的一些变化/"/>
+  <link rel="canonical" href="https://koala99.github.io/2016/10/13/java hashmap原理/"/>
 
 
 
 
 
-  <title> swift 3.0之后的一些变化 | Whatever is worth doing is worth doing well </title>
+  <title> android 实现银行卡识别 | Whatever is worth doing is worth doing well </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -271,7 +247,7 @@ let size = CGSize(width: 100, height: 100) //">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://koala99.github.io/2016/09/11/swift-3-0之后的一些变化/">
+  <link itemprop="mainEntityOfPage" href="https://koala99.github.io/2016/10/13/java hashmap原理/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="lee">
@@ -295,7 +271,7 @@ let size = CGSize(width: 100, height: 100) //">
             
             
               
-                swift 3.0之后的一些变化
+                android 实现银行卡识别
               
             
           </h1>
@@ -310,8 +286,8 @@ let size = CGSize(width: 100, height: 100) //">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-11T21:47:32+08:00">
-                2016-09-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-13T20:24:30+08:00">
+                2016-10-13
               </time>
             
 
@@ -344,8 +320,8 @@ let size = CGSize(width: 100, height: 100) //">
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/移动开发/ios/" itemprop="url" rel="index">
-                    <span itemprop="name">ios</span>
+                  <a href="/categories/移动开发/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
                   </a>
                 </span>
 
@@ -379,34 +355,7 @@ let size = CGSize(width: 100, height: 100) //">
       
 
       
-        <p>由于之前项目都是swift2写的，现在都得做升级，更新到swift3，这边就做下记录。</p>
-<pre>
-CGPointMake -> CGPoint
-let point = CGPoint(x: 0,y :0) // x和y的值可以是CGFloat, Double, Int
-</pre>
-
-<pre>
-CGSizeMake -> CGSize
-let size = CGSize(width: 100, height: 100) // width和height的值可以是CGFloat, Double, Int
-</pre>
-
-<pre>
-CGRectMake -> CGRect
-用CGPoint和CGSize来构建
-let rect = CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 100, height: 100))
-</pre>
-
-<pre>
-用CGFloat，Double和Int值构建
-let rect = CGRect(x: 0, y: 0, width: 100, height: 100) // 参数类型可以为CGFloat, Double, Int
-CGRectZero->CGRect.zero & CGPointZero -> CGPoint.zero
-</pre>
-
-<pre>
-let size = CGSize.zero // width = 0, height = 0
-let point = CGPoint.zero // x = 0, y = 0，等同于CGPointZero
-let rect = CGRect.zero // 等同与 CGRectZero
-</pre>
+        <p>   因为公司增加个人用户发布文章模块，这样的话，肯定得要求用户实名制，上传身份证，银行卡这些是必须的，所以必须做图像识别这块，目前因为要求比较简单，只是做银行卡号码识别，自己app这边坐银行卡号绑定，正好以前接触过opencv，于是就用opencv做简单的银行卡号识别。采用的事故 opencv4android sdk,封装好的java文件。具体配置可参考<a herf="http://blog.csdn.net/gao_chun/article/details/49359535">这篇文章</a></p>
 
       
     </div>
@@ -430,7 +379,9 @@ let rect = CGRect.zero // 等同与 CGRectZero
       
         <div class="post-tags">
           
-            <a href="/tags/ios-swift/" rel="tag"># ios,swift</a>
+            <a href="/tags/opencv/" rel="tag"># opencv</a>
+          
+            <a href="/tags/android/" rel="tag"># android</a>
           
         </div>
       
@@ -443,8 +394,8 @@ let rect = CGRect.zero // 等同与 CGRectZero
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/10/13/java gc原理/" rel="next" title="java gc原理">
-                <i class="fa fa-chevron-left"></i> java gc原理
+              <a href="/2016/09/20/ios-开发小结/" rel="next" title="ios 开发小结">
+                <i class="fa fa-chevron-left"></i> ios 开发小结
               </a>
             
           </div>
@@ -452,10 +403,6 @@ let rect = CGRect.zero // 等同与 CGRectZero
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/20/ios-开发小结/" rel="prev" title="ios 开发小结">
-                ios 开发小结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
