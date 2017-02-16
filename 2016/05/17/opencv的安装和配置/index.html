@@ -6,14 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://koala99.github.io">
-  <title>Archives: 2012 | Whatever is worth doing is worth doing well</title>
+  <title>opencv的安装和配置 | Whatever is worth doing is worth doing well</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Whatever is worth doing is worth doing well">
-<meta property="og:url" content="https://koala99.github.io/archives/2012/index.html">
+  <meta name="description" content="opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：
+INCLUDEPATH += /usr/local/include\                /usr/local/i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="opencv的安装和配置">
+<meta property="og:url" content="https://koala99.github.io/2016/05/17/opencv的安装和配置/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
+<meta property="og:description" content="opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：
+INCLUDEPATH += /usr/local/include\                /usr/local/i">
+<meta property="og:updated_time" content="2017-02-16T17:01:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Whatever is worth doing is worth doing well">
+<meta name="twitter:title" content="opencv的安装和配置">
+<meta name="twitter:description" content="opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：
+INCLUDEPATH += /usr/local/include\                /usr/local/i">
   
     <link rel="alternative" href="/atom.xml" title="Whatever is worth doing is worth doing well" type="application/atom+xml">
   
@@ -145,64 +152,176 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-opencv的安装和配置" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2012" class="archive-year">2012</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/09/11/activity的一些生命周期场景/" class="archive-article-date">
-  	<time datetime="2012-09-11T12:37:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2012-09-11</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/09/11/activity的一些生命周期场景/">activity的一些生命周期场景</a>
+    <h1 class="article-title" itemprop="name">
+      opencv的安装和配置
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/2016/05/17/opencv的安装和配置/" class="archive-article-date">
+  	<time datetime="2016-05-17T13:15:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。<br>自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：</p>
+<p><pre><br>INCLUDEPATH += /usr/local/include\<br>                /usr/local/include/opencv\<br>                /usr/local/include/opencv2<br>LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui</pre></p>
+<p>TEMPLATE = app<br>CONFIG += console c++11<br>CONFIG -= app_bundle<br>CONFIG -= qt</p>
+<p>SOURCES += main.cpp<br><br>环境配置好了，后面继续学习。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">opencv ubuntu</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
+        			<a href="/categories/图像/" class="article-tag-list-link color3">图像</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/android/" class="article-tag-list-link color3">android</a>
+        			<a href="/categories/opencv/" class="article-tag-list-link color2">opencv</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://koala99.github.io/2016/05/17/opencv的安装和配置/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/09/11/swift-3-0之后的一些变化/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          swift 3.0之后的一些变化
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2014/11/13/android架构浅谈/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">android架构浅谈</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -225,8 +344,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

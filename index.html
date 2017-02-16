@@ -332,6 +332,86 @@ let rect = CGRect.zero // 等同与 CGRectZero
 
 
   
+    <article id="post-opencv的安装和配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/17/opencv的安装和配置/">opencv的安装和配置</a>
+    </h1>
+  
+
+        
+        <a href="/2016/05/17/opencv的安装和配置/" class="archive-article-date">
+  	<time datetime="2016-05-17T13:15:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。<br>自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：</p>
+<p><pre><br>INCLUDEPATH += /usr/local/include\<br>                /usr/local/include/opencv\<br>                /usr/local/include/opencv2<br>LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui</pre></p>
+<p>TEMPLATE = app<br>CONFIG += console c++11<br>CONFIG -= app_bundle<br>CONFIG -= qt</p>
+<p>SOURCES += main.cpp<br><br>环境配置好了，后面继续学习。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">opencv ubuntu</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/图像/" class="article-tag-list-link color3">图像</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/opencv/" class="article-tag-list-link color2">opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/05/17/opencv的安装和配置/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-android架构浅谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -981,15 +1061,15 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1001,7 +1081,11 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
+                <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
               </li>
             
             <div class="clearfix"></div>
