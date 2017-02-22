@@ -493,6 +493,86 @@ let rect = CGRect.zero // 等同与 CGRectZero
 
 
   
+    <article id="post-机器学习初学" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/10/机器学习初学/">机器学习入门系列</a>
+    </h1>
+  
+
+        
+        <a href="/2015/04/10/机器学习初学/" class="archive-article-date">
+  	<time datetime="2015-04-10T11:52:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>  现在公司的一个留美回来的博士就是美国那边做机器学习方面的工作，当时感觉还挺有意思的，于是还买了一本图解学习的书看了下，奈何里面都是公式的推导，看的懵逼懵逼的。<br><br> 可能我擅长实践但是缺乏理论，于是乎，趁最近工作不是很繁忙，自己重新捡回来了大学的高数，概率论和线性代数。<br> 首先记录下机器学习的一些数学基本知识。<br><br> <pre><br> 高数：<br>常见函数求导<br>导数运算法则<br>复合函数求导<br>方向导数与梯度（难点）<br>凸集与凸函数<br>一元函数求极值<br>多元函数求极值（了解）<br>拉格朗日乘子法<br>泰勒公式展开<br>空间解析几何和向量代数</pre></p>
+<p>线性代数</p>
+<p>线性代数：<br>矩阵的定义，矩阵的转置<br>单位矩阵，三角矩阵，对称矩阵<br>向量内积，相关性<br>正交向量组，标准正交基，正交矩阵<br>特征值分解</p>
+<p>概率论<br>事件的关系与运算：<br>条件概率，全概率公式，贝叶斯公式<br>随机变量的期望，方差<br>协方差，相关系数，协方差矩阵<br>概率分布：0-1分布，二项分布，高斯分布<br>极大似然函数估计<br>大数定律，伯努利大数定律，中心极限定理<br> </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/机器学习/" class="article-tag-list-link color5">机器学习</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/初学篇/" class="article-tag-list-link color4">初学篇</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2015/04/10/机器学习初学/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-android架构浅谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -963,88 +1043,10 @@ public View inflate() {
 
 
   
-    <article id="post-activity的一些生命周期场景" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/09/11/activity的一些生命周期场景/">activity的一些生命周期场景</a>
-    </h1>
-  
-
-        
-        <a href="/2012/09/11/activity的一些生命周期场景/" class="archive-article-date">
-  	<time datetime="2012-09-11T12:37:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2012-09-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6>1，进入Activity</h6><br>　　onCreate -&gt; onStart -&gt; onResume<br><h6>2，BACK键</h6><br>　onPause　-&gt;　onStop　-&gt;　onDestroy<br><h6>3，HOME键</h6><br>　　　　　　Home键退出：onPause　-&gt;　onStop<br>　　　　　　Home键回来：onRestart -&gt; onStart　-&gt;　onResume<br><h6>4，休眠/恢复</h6><br>　　　　　　休眠：onPause<br>　　　　　　恢复：onResume<br><h6>5，旋转屏幕</h6><br>　　　　未设置android:configChanges：<br>　　　　　onPause -&gt; onStop -&gt; onDestory -&gt; onCreate -&gt; onStart -&gt; onResume<br>设置了android:configChanges=”orientation| keyboardHidden”：不会触发生命周期方法.<br><h6>6，来电</h6><br>　　　　来电，显示来电界面：onPause -&gt; onStop<br>　　　　关闭电话界面，重新回到当前Activity：onRestart -&gt; onStart　-&gt;　onResume　　　　<br><h6>7,其他Activity</h6><br>　　　　　　进入下一个Activity：<br>　　　　　　　　A.onPause -&gt; B.onCreate -&gt; B.onStart -&gt;B.onResume -&gt; A.onStop<br>　　　　　　从其他Activity返回至当前Acitivity：<br><br>　　　　　　　　onRestart -&gt; onStart　-&gt;　onResume<br>　　　　　　　　<br><br>　与Activity生命周期结合的应用场景<br><br><br><h6>3.1　　与广播(Broadcast)结合</h6>
-
-<p>在onResume注册广播(registerLinstener)，在onPause注销广播(unregisterLinstener)。 例如：</p>
-<p>做”摇一摇”功能（传感器）、监听网络变化，就可以在onResume中注册监听，在onPause里注销掉，已节省资源提高效率。</p>
-<p>　　　　</p>
-<h6>3.2与服务(Service)结合</h6>
-
-<p>在onStart绑定服务(bindService)，在onStop中取消绑定(unbindService)。 例如：</p>
-<p>需要通过Service定时更新UI上的数据，而Activity的可见周期在onStart与onStop之间，那么就可以再onStart时启动服务，在onStop时停止服务。为了节约系统资源，除了提高用户体验以外，开发人员应尽可能的优化程序。</p>
-<p>　　　　</p>
-<h6>3.3　　与Cursor结合</h6>
-
-<p>使用managedQuery让Activity帮你管理Cursor的生命周期，不用自己去close。</p>
-<p>　　　　</p>
-<h6>3.4　　释放资源</h6>
-
-<p>可以在onDestory中释放一些资源。比如可以在onDestory时调用MediaPlayer的release。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/android/" class="article-tag-list-link color3">android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2012/09/11/activity的一些生命周期场景/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -1134,14 +1136,6 @@ public View inflate() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ios</a>
               </li>
              
@@ -1150,11 +1144,11 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">lbs</a>
+                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">优化</a>
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1166,15 +1160,27 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">lbs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
             
             <div class="clearfix"></div>
