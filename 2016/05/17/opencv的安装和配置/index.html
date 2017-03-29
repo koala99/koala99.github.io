@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="https://koala99.github.io">
   <title>opencv的安装和配置 | Whatever is worth doing is worth doing well</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：
-INCLUDEPATH += /usr/local/include\                /usr/local/i">
+  <meta name="description" content="opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。1 预先安装一些软件：
+sudo apt-get install build-essential cmake libgtk2.0-dev pkg-config python-dev python-numpy libavcodec-dev libavformat-dev libswscale-dev2 去管网下载openc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="opencv的安装和配置">
 <meta property="og:url" content="https://koala99.github.io/2016/05/17/opencv的安装和配置/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
-<meta property="og:description" content="opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：
-INCLUDEPATH += /usr/local/include\                /usr/local/i">
-<meta property="og:updated_time" content="2017-02-16T17:01:36.000Z">
+<meta property="og:description" content="opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。1 预先安装一些软件：
+sudo apt-get install build-essential cmake libgtk2.0-dev pkg-config python-dev python-numpy libavcodec-dev libavformat-dev libswscale-dev2 去管网下载openc">
+<meta property="og:updated_time" content="2017-03-29T14:44:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="opencv的安装和配置">
-<meta name="twitter:description" content="opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：
-INCLUDEPATH += /usr/local/include\                /usr/local/i">
+<meta name="twitter:description" content="opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。1 预先安装一些软件：
+sudo apt-get install build-essential cmake libgtk2.0-dev pkg-config python-dev python-numpy libavcodec-dev libavformat-dev libswscale-dev2 去管网下载openc">
   
     <link rel="alternative" href="/atom.xml" title="Whatever is worth doing is worth doing well" type="application/atom+xml">
   
@@ -172,7 +172,16 @@ INCLUDEPATH += /usr/local/include\                /usr/local/i">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。<br>自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：</p>
+        <p>opencv是计算机视觉处理必备，自己趁这段时间工作不是很繁忙，也开始学习下。<br>1 预先安装一些软件：</p>
+<p>sudo apt-get install build-essential cmake libgtk2.0-dev pkg-config python-dev python-numpy libavcodec-dev libavformat-dev libswscale-dev<br>2 去管网下载opencv压缩包</p>
+<p>3 解压压缩包到某文件夹（用windows习惯了，直接右键提取到此处。。。）</p>
+<p>4 command中cd到该解压缩的文件夹中，然后创建build文件夹 mkdir build</p>
+<p>5 进入build目录 cd build</p>
+<p>6 编译opencv源码</p>
+<p>cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..</p>
+<p>7 安装</p>
+<p>sudo make install</p>
+<p>自己环境配置是ubuntu+qt+opencv， opencv直接官网下载，源码编译安装，这部分就不用介绍了，值得注意的是，在qt creator中引用libs库时，需在.pro文件中做如下配置：</p>
 <p><pre><br>INCLUDEPATH += /usr/local/include\<br>                /usr/local/include/opencv\<br>                /usr/local/include/opencv2<br>LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui</pre></p>
 <p>TEMPLATE = app<br>CONFIG += console c++11<br>CONFIG -= app_bundle<br>CONFIG -= qt</p>
 <p>SOURCES += main.cpp<br><br>环境配置好了，后面继续学习。</p>
@@ -305,8 +314,8 @@ INCLUDEPATH += /usr/local/include\                /usr/local/i">
     </a>
   
   
-    <a href="/2015/04/10/机器学习初学/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">机器学习入门系列</div>
+    <a href="/2015/04/11/knn算法和应用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">机器学习入门系列_knn</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -410,6 +419,14 @@ INCLUDEPATH += /usr/local/include\                /usr/local/i">
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ios</a>
               </li>
              
@@ -418,11 +435,7 @@ INCLUDEPATH += /usr/local/include\                /usr/local/i">
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -434,7 +447,7 @@ INCLUDEPATH += /usr/local/include\                /usr/local/i">
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
+                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -446,15 +459,11 @@ INCLUDEPATH += /usr/local/include\                /usr/local/i">
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
+                <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
             
             <div class="clearfix"></div>
