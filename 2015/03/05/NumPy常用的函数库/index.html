@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://koala99.github.io/2015/03/05/NumPy常用的函数库/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
 <meta property="og:description" content="创建二维数组  array()：array = ones(5)array = [1,1,1,1,1]array = empty(5)使用ones可以创建任意维度和元素个数的数组，其元素均为1。zeros（） 全是0 的矩阵，empty函数的使用方法一样，只是它创建的是数组所有元素均为空，所以它是速度最快的创建数组的方法。set = array([[1., 2, ],[3., 4.],[5., 6">
-<meta property="og:updated_time" content="2017-04-05T06:52:15.000Z">
+<meta property="og:updated_time" content="2017-04-05T08:05:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NumPy常用的函数库">
 <meta name="twitter:description" content="创建二维数组  array()：array = ones(5)array = [1,1,1,1,1]array = empty(5)使用ones可以创建任意维度和元素个数的数组，其元素均为1。zeros（） 全是0 的矩阵，empty函数的使用方法一样，只是它创建的是数组所有元素均为空，所以它是速度最快的创建数组的方法。set = array([[1., 2, ],[3., 4.],[5., 6">
@@ -196,6 +196,13 @@
 </ol>
 <p>print c.sum()<br><br>print c.sum(axis=0)<br><br>print c.sum(axis=1)<br></p>
 <p>结果分别是：19, [3 8 8], [ 3 14  2]</p>
+<p>函数是将x中的元素从小到大排列，提取其对应的index(索引)<br><br>array.argsort()</p>
+<p>Out[4]: array([3, 2, 0, 1])</p>
+<p>x = np.array([[0, 3], [2, 2]])：</p>
+<p>array([[0, 3],<br>       [2, 2]])</p>
+<p>np.argsort(x, axis=0) #按列排序</p>
+<p>array([[0, 1],<br>       [1, 0]])</p>
+<p>np.argsort(x, axis=1) #按行排序<br>    array([[0, 1],<br>           [0, 1]])</p>
 
       
 
@@ -458,14 +465,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ios</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">swift</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -474,15 +473,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ios</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">lbs</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
               </li>
              
               <li class="article-tag-list-item">
