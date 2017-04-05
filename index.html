@@ -769,6 +769,99 @@ return sortedClassCount[0][0]
 
 
   
+    <article id="post-NumPy常用的函数库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/05/NumPy常用的函数库/">NumPy常用的函数库</a>
+    </h1>
+  
+
+        
+        <a href="/2015/03/05/NumPy常用的函数库/" class="archive-article-date">
+  	<time datetime="2015-03-05T02:15:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>创建二维数组  array()：<br><br>array = ones(5)<br><br>array = [1,1,1,1,1]<br><br>array = empty(5)<br><br>使用ones可以创建任意维度和元素个数的数组，其元素均为1。<br>zeros（） 全是0 的矩阵，empty函数的使用方法一样，只是它创建的是数组所有元素均为空，所以它是速度最快的创建数组的方法。<br><br>set = array([[1., 2, ],[3., 4.],[5., 6.],[7., 9.]])</li>
+</ol>
+<p>求数组的 行数： set.shape[0]<br><br> 4<br><br>求数组的列数：set.shape[1] <br><br>2<br><br>求数组的大小 set.shape<br><br>(4, 2)<br><br>求数组的类型  set.dtype<br><br>dtype(‘float64’)<br></p>
+<ol>
+<li>numpy.eye(N,M=None, k=0, dtype=<type 'float'="">)</type></li>
+</ol>
+<p>关注第一个第三个参数就行了</p>
+<p>第一个参数：输出方阵（行数=列数）的规模，即行数或列数</p>
+<p>第三个参数：默认情况下输出的是对角线全“1”，其余全“0”的方阵，如果k为正整数，则在右上方第k条对角线全“1”其余全“0”，k为负整数则在左下方第k条对角线全“1”其余全“0”。</p>
+<ol>
+<li>创建矩阵 identity()</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">numpy</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/机器学习/" class="article-tag-list-link color5">机器学习</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/numpy/" class="article-tag-list-link color1">numpy</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2015/03/05/NumPy常用的函数库/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-android架构浅谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -940,88 +1033,6 @@ public static void main(String[] args) {
 
 
   
-    <article id="post-lbs开发中遇到的问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/15/lbs开发中遇到的问题/">lbs开发中遇到的问题</a>
-    </h1>
-  
-
-        
-        <a href="/2014/09/15/lbs开发中遇到的问题/" class="archive-article-date">
-  	<time datetime="2014-09-15T11:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-09-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>   在开发莫比动力中，遇到了一些问题，这边记录下，莫比动力采用的是百度地图的sdk进行定位服务，根据运动状况，记录运动轨迹。<br><br>   首先必不可少遇到轨迹漂移的问题，个别轨迹漂移的问题还好解决，有时候就怕遇到长时间轨迹漂移的情况。<br><br>   当个别位置漂移时，这边主要根据运动状态做了地址栅栏（在规定半径形成的圆中），如果不在此范围内，算作gps漂移，像静止状态下，速度立刻置零，而且不进行更新地图上的经纬度；运动状态时，就需要根据运动速度，首先判断速度，类似那种超大速度，超大距离的点（与速度相关），都需要过滤掉。<br><br>   长时间漂移这边处理的方法，这边采用的是从第一个异常点开始计算，一定时间内，连续的出现异常点大于20这个边界值，就把这段时间的内统一清空，看做长时间漂移。<br>   在地图上展现轨迹时，如果把记录的点直接描点连线的话，会发现基本都是很突兀的直线连接，这边就需要采用 滑动平均平滑 算法，它的实现很简单，相邻5个点一组，进行计算:<br><br>   <img src="http://ol76vrjwp.bkt.clouddn.com/871BDB0D-83FC-419B-A5C3-8C2C302F81C6.png" alt=""></p>
-<p> <br><br> 这样绘制的曲线就更加平滑了。  </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">lbs</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">优化</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/优化/" class="article-tag-list-link color3">优化</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2014/09/15/lbs开发中遇到的问题/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1115,19 +1126,19 @@ public static void main(String[] args) {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">numpy</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ios</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">swift</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1139,11 +1150,19 @@ public static void main(String[] args) {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ios</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
+                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1155,7 +1174,7 @@ public static void main(String[] args) {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
+                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1164,10 +1183,6 @@ public static void main(String[] args) {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
             
             <div class="clearfix"></div>

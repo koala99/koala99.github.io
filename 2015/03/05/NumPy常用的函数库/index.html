@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://koala99.github.io">
-  <title>Category: 并行计算 | Whatever is worth doing is worth doing well</title>
+  <title>NumPy常用的函数库 | Whatever is worth doing is worth doing well</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Whatever is worth doing is worth doing well">
-<meta property="og:url" content="https://koala99.github.io/categories/并行计算/index.html">
+  <meta name="description" content="创建二维数组  array()：array = ones(5)array = [1,1,1,1,1]array = empty(5)使用ones可以创建任意维度和元素个数的数组，其元素均为1。zeros（） 全是0 的矩阵，empty函数的使用方法一样，只是它创建的是数组所有元素均为空，所以它是速度最快的创建数组的方法。set = array([[1., 2, ],[3., 4.],[5., 6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NumPy常用的函数库">
+<meta property="og:url" content="https://koala99.github.io/2015/03/05/NumPy常用的函数库/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
+<meta property="og:description" content="创建二维数组  array()：array = ones(5)array = [1,1,1,1,1]array = empty(5)使用ones可以创建任意维度和元素个数的数组，其元素均为1。zeros（） 全是0 的矩阵，empty函数的使用方法一样，只是它创建的是数组所有元素均为空，所以它是速度最快的创建数组的方法。set = array([[1., 2, ],[3., 4.],[5., 6">
+<meta property="og:updated_time" content="2017-04-05T05:43:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Whatever is worth doing is worth doing well">
+<meta name="twitter:title" content="NumPy常用的函数库">
+<meta name="twitter:description" content="创建二维数组  array()：array = ones(5)array = [1,1,1,1,1]array = empty(5)使用ones可以创建任意维度和元素个数的数组，其元素均为1。zeros（） 全是0 的矩阵，empty函数的使用方法一样，只是它创建的是数组所有元素均为空，所以它是速度最快的创建数组的方法。set = array([[1., 2, ],[3., 4.],[5., 6">
   
     <link rel="alternative" href="/atom.xml" title="Whatever is worth doing is worth doing well" type="application/atom+xml">
   
@@ -145,79 +149,189 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-NumPy常用的函数库" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/03/cuda的通信模型/" class="archive-article-date">
-  	<time datetime="2017-03-03T05:53:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-03</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/03/cuda的通信模型/">cuda的通信模型</a>
+    <h1 class="article-title" itemprop="name">
+      NumPy常用的函数库
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2015/03/05/NumPy常用的函数库/" class="archive-article-date">
+  	<time datetime="2015-03-05T02:15:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>创建二维数组  array()：<br><br>array = ones(5)<br><br>array = [1,1,1,1,1]<br><br>array = empty(5)<br><br>使用ones可以创建任意维度和元素个数的数组，其元素均为1。<br>zeros（） 全是0 的矩阵，empty函数的使用方法一样，只是它创建的是数组所有元素均为空，所以它是速度最快的创建数组的方法。<br><br>set = array([[1., 2, ],[3., 4.],[5., 6.],[7., 9.]])</li>
+</ol>
+<p>求数组的 行数： set.shape[0]<br><br> 4<br><br>求数组的列数：set.shape[1] <br><br>2<br><br>求数组的大小 set.shape<br><br>(4, 2)<br><br>求数组的类型  set.dtype<br><br>dtype(‘float64’)<br></p>
+<ol>
+<li>numpy.eye(N,M=None, k=0, dtype=<type 'float'="">)</type></li>
+</ol>
+<p>关注第一个第三个参数就行了</p>
+<p>第一个参数：输出方阵（行数=列数）的规模，即行数或列数</p>
+<p>第三个参数：默认情况下输出的是对角线全“1”，其余全“0”的方阵，如果k为正整数，则在右上方第k条对角线全“1”其余全“0”，k为负整数则在左下方第k条对角线全“1”其余全“0”。</p>
+<ol>
+<li>创建矩阵 identity()</li>
+</ol>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">并行计算</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">cuda</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">numpy</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/并行计算/" class="article-tag-list-link color5">并行计算</a>
+        			<a href="/categories/机器学习/" class="article-tag-list-link color5">机器学习</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/cuda/" class="article-tag-list-link color5">cuda</a>
+        			<a href="/categories/numpy/" class="article-tag-list-link color1">numpy</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://koala99.github.io/2015/03/05/NumPy常用的函数库/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2015/04/10/机器学习初学/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          机器学习入门系列_准备篇
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2014/11/13/android架构浅谈/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">android架构浅谈</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -240,10 +354,10 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		root: "/",
 		innerArchive: true,

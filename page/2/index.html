@@ -147,6 +147,88 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-lbs开发中遇到的问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/15/lbs开发中遇到的问题/">lbs开发中遇到的问题</a>
+    </h1>
+  
+
+        
+        <a href="/2014/09/15/lbs开发中遇到的问题/" class="archive-article-date">
+  	<time datetime="2014-09-15T11:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-09-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>   在开发莫比动力中，遇到了一些问题，这边记录下，莫比动力采用的是百度地图的sdk进行定位服务，根据运动状况，记录运动轨迹。<br><br>   首先必不可少遇到轨迹漂移的问题，个别轨迹漂移的问题还好解决，有时候就怕遇到长时间轨迹漂移的情况。<br><br>   当个别位置漂移时，这边主要根据运动状态做了地址栅栏（在规定半径形成的圆中），如果不在此范围内，算作gps漂移，像静止状态下，速度立刻置零，而且不进行更新地图上的经纬度；运动状态时，就需要根据运动速度，首先判断速度，类似那种超大速度，超大距离的点（与速度相关），都需要过滤掉。<br><br>   长时间漂移这边处理的方法，这边采用的是从第一个异常点开始计算，一定时间内，连续的出现异常点大于20这个边界值，就把这段时间的内统一清空，看做长时间漂移。<br>   在地图上展现轨迹时，如果把记录的点直接描点连线的话，会发现基本都是很突兀的直线连接，这边就需要采用 滑动平均平滑 算法，它的实现很简单，相邻5个点一组，进行计算:<br><br>   <img src="http://ol76vrjwp.bkt.clouddn.com/871BDB0D-83FC-419B-A5C3-8C2C302F81C6.png" alt=""></p>
+<p> <br><br> 这样绘制的曲线就更加平滑了。  </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">lbs</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">优化</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/优化/" class="article-tag-list-link color3">优化</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2014/09/15/lbs开发中遇到的问题/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-java hashmap原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -539,19 +621,19 @@ public View inflate() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">numpy</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ios</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">swift</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -563,11 +645,19 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ios</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
+                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -579,7 +669,7 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
+                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -588,10 +678,6 @@ public View inflate() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
             
             <div class="clearfix"></div>
