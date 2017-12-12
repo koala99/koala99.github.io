@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://koala99.github.io">
-  <title>Tag: 日常记录 | Whatever is worth doing is worth doing well</title>
+  <title>mac下 clion配置qt的开发环境 | Whatever is worth doing is worth doing well</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Whatever is worth doing is worth doing well">
-<meta property="og:url" content="https://koala99.github.io/tags/日常记录/index.html">
+  <meta name="description" content="之前玩qt，都是用自带的 qtCreator 这个编辑器，然后编译项目都是内置的qmake。这段时间，正好在做ffmpeg移植到android去，发现网上有不少关于qt+ffmpeg+opencv的结合，所以自己也把IDE改为了 clion。当然，改过来问题多多，首先项目编译器都是cmake了，然后引入各种库，这里简单做下配置，ffmpeg和qt这边都是通过 homebrew来直接安装的，对应的i">
+<meta name="keywords" content="qt,clion，cmake">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mac下 clion配置qt的开发环境">
+<meta property="og:url" content="https://koala99.github.io/2017/11/10/mac下-clion配置qt的开发环境/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
+<meta property="og:description" content="之前玩qt，都是用自带的 qtCreator 这个编辑器，然后编译项目都是内置的qmake。这段时间，正好在做ffmpeg移植到android去，发现网上有不少关于qt+ffmpeg+opencv的结合，所以自己也把IDE改为了 clion。当然，改过来问题多多，首先项目编译器都是cmake了，然后引入各种库，这里简单做下配置，ffmpeg和qt这边都是通过 homebrew来直接安装的，对应的i">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-12T09:20:15.160Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Whatever is worth doing is worth doing well">
+<meta name="twitter:title" content="mac下 clion配置qt的开发环境">
+<meta name="twitter:description" content="之前玩qt，都是用自带的 qtCreator 这个编辑器，然后编译项目都是内置的qmake。这段时间，正好在做ffmpeg移植到android去，发现网上有不少关于qt+ffmpeg+opencv的结合，所以自己也把IDE改为了 clion。当然，改过来问题多多，首先项目编译器都是cmake了，然后引入各种库，这里简单做下配置，ffmpeg和qt这边都是通过 homebrew来直接安装的，对应的i">
   
     <link rel="alternative" href="/atom.xml" title="Whatever is worth doing is worth doing well" type="application/atom+xml">
   
@@ -146,52 +151,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-mac下-clion配置qt的开发环境" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/05/20/cmake配置/" class="archive-article-date">
-  	<time datetime="2016-05-20T07:52:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-05-20</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/05/20/cmake配置/">cmake配置</a>
+    <h1 class="article-title" itemprop="name">
+      mac下 clion配置qt的开发环境
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/11/10/mac下-clion配置qt的开发环境/" class="archive-article-date">
+  	<time datetime="2017-11-10T12:57:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前玩qt，都是用自带的 qtCreator 这个编辑器，然后编译项目都是内置的qmake。这段时间，正好在做ffmpeg移植到android去，发现网上有不少关于qt+ffmpeg+opencv的结合，所以自己也把IDE改为了 clion。<br><br>当然，改过来问题多多，首先项目编译器都是cmake了，然后引入各种库，这里简单做下配置，ffmpeg和qt这边都是通过 homebrew来直接安装的，<br>对应的include路径都在：<br>        /usr/local/Cellar/ffmpeg/3.4.1/include/ <br><br>        /usr/local/Cellar/sdl2/2.0.7/include <br><br>        /usr/local/opt/qt/include<br><br>lib都在：<br>        usr/local/Cellar/ffmpeg/3.4.1/lib/ ,<br><br>        /usr/local/Cellar/sdl2/2.0.7/lib ,<br><br>        /usr/local/opt/qt/lib <br></p>
+<p>遇到的问题主要就是在编写cmakelists里面的配置， 这边贴下自己的代码：<br><br>    <pre><br>    cmake_minimum_required(VERSION 3.9)<br>project(QtFFmpeg)</pre></p>
+<p>set(CMAKE_CXX_FLAGS “${CMAKE_CXX_FLAGS} -std=c++11”)</p>
+<p>include_directories(/usr/local/Cellar/ffmpeg/3.4.1/include/ ,<br>        /usr/local/Cellar/sdl2/2.0.7/include ,<br>        /usr/local/opt/qt/include)<br>link_directories(/usr/local/Cellar/ffmpeg/3.4.1/lib/ ,<br>        /usr/local/Cellar/sdl2/2.0.7/lib ,<br>        /usr/local/opt/qt/lib)</p>
+<p>set(CMAKE_CXX_STANDARD 11)</p>
+<p>set(CMAKE_PREFIX_PATH “/usr/local/Cellar/qt/5.10.0”)</p>
+<p>find_package(Qt5Core REQUIRED)<br>find_package(Qt5Widgets REQUIRED)</p>
+<p>set(CMAKE_INCLUDE_CURRENT_DIR ON)<br>set(CMAKE_AUTOMOC ON)</p>
+<p>set(CMAKE_AUTOUIC ON) # .ui files<br>set(CMAKE_AUTORCC ON)</p>
+<p>qt5_wrap_ui(ui_FILES mainwindow.ui)</p>
+<p>set(SOURCE_FILES main.cpp mainwindow.cpp mainwindow.h ${ui_FILES})</p>
+<p>add_executable(QtFFmpeg main.cpp)</p>
+<p>target_link_libraries(<br>        QtFFmpeg<br>        avcodec<br>        avdevice<br>        avfilter<br>        avformat<br>        avresample<br>        avutil<br>        postproc<br>        swresample<br>        swscale<br>        SDL2<br>        Qt5::Widgets<br>        Qt5::Core<br>        Qt5::Gui<br>     </p>
+<p>其中set(CMAKEPREFIXPATH “/usr/local/Cellar/qt/5.10.0”)， 这个是设置本地编译的cmake，必须是对应的qt里面的<br><br>如果我们用到了ui文件，必须使用 qt5wrapui<br><br>这边先简单记录下，等后续工程完了，打算传到github上去</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">日常记录</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">qt</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ubuntu</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">clion，cmake</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -201,24 +218,93 @@
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/cmake/" class="article-tag-list-link color1">cmake</a>
+        			<a href="/categories/qt/" class="article-tag-list-link color3">qt</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://koala99.github.io/2017/11/10/mac下-clion配置qt的开发环境/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/08/24/ubuntu-16-04下drupal的安装与配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ubuntu 16.04下drupal的安装与配置 </div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -241,9 +327,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

@@ -12,6 +12,7 @@
 <meta property="og:title" content="Whatever is worth doing is worth doing well">
 <meta property="og:url" content="https://koala99.github.io/page/2/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
+<meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Whatever is worth doing is worth doing well">
   
@@ -146,6 +147,72 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-android架构浅谈" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/13/android架构浅谈/">android架构浅谈</a>
+    </h1>
+  
+
+        
+        <a href="/2014/11/13/android架构浅谈/" class="archive-article-date">
+  	<time datetime="2014-11-13T13:30:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-11-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从做安卓开始，心中最熟悉的还是mvc这中架构，上大学那会，自己写最初写java web那会，就是构造java bean，jsp做展现，servlet做控制器，慢慢到后来，随着用到ssh这些框架，分层也越来越细了。<br><br>写了两年多的安卓，基本还是沿用mvc框架来处理问题。今年开始流行起来mvp这个框架了，这个框架最初还是在微软.net平台上实践，慢慢有人就开始用到安卓上来了。<br><br>为什么要用mvp？肯定还是android上mvc不够好，首先我们来看这个模型图：<br><br><img src="http://ol76vrjwp.bkt.clouddn.com/a2.png" alt=""><br>明显可以注意到 这三层形成了一个回路，耦合度高。<br><br>看看android上mvc的实现，<br>View层：定义View或ViewGroup或xml，负责将用户的请求通知Controller，并根据model更新界面；<br>Controller层：我们的activity或者fragment这个根据model更改界面；<br>model：最常见的java bean和网络回传的数据<br>看似划分的很清楚，其实问题就出在activity或fragment上，他们里面也有大量处理ui的代码，页面操作也在这里面，从而造成耦合度过高，一个很简单的例子，我们定义了很多button，每个button的的动作监听需要在activity中，监听后改变ui也在activity中，一旦控件过多，activity就很膨胀。<br>于是我们就开始引出mvp了，他实际上是mvc的改造，看图说话：<br><img src="http://ol76vrjwp.bkt.clouddn.com/a3.png" alt=""><br>最大的区别就是model与view完全解绑了，不会打交道了。<br>view就是我们那些xml，activity，<br>presenter处理具体业务<br>model不变。<br>这里可能出问题的就是presenter对activity或fragment的引用，一般采用弱引用来解决这个问题。<br>总结下它们的处理流程:<br><br>在MVC中，用户的请求首先会到达Controller,有Controller从Model获取数据，选择合适的View,把处理结果呈现到View上；<br>在MVP中，用户的请求首先会到达View,View传递请求到特定的Presenter,Presenter从Model获取数据后，再把处理结果通过接口传递到View。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/android/" class="article-tag-list-link color3">android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2014/11/13/android架构浅谈/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
   
     <article id="post-java gc原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -734,11 +801,11 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -758,11 +825,11 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -775,6 +842,14 @@ public View inflate() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">qt</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">clion，cmake</a>
               </li>
              
               <li class="article-tag-list-item">
