@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
 <meta property="og:description" content="之前玩qt，都是用自带的 qtCreator 这个编辑器，然后编译项目都是内置的qmake。这段时间，正好在做ffmpeg移植到android去，发现网上有不少关于qt+ffmpeg+opencv的结合，所以自己也把IDE改为了 clion。当然，改过来问题多多，首先项目编译器都是cmake了，然后引入各种库，这里简单做下配置，ffmpeg和qt这边都是通过 homebrew来直接安装的，对应的i">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-12T09:20:15.160Z">
+<meta property="og:updated_time" content="2017-12-12T15:59:14.943Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac下 clion配置qt的开发环境">
 <meta name="twitter:description" content="之前玩qt，都是用自带的 qtCreator 这个编辑器，然后编译项目都是内置的qmake。这段时间，正好在做ffmpeg移植到android去，发现网上有不少关于qt+ffmpeg+opencv的结合，所以自己也把IDE改为了 clion。当然，改过来问题多多，首先项目编译器都是cmake了，然后引入各种库，这里简单做下配置，ffmpeg和qt这边都是通过 homebrew来直接安装的，对应的i">
@@ -172,18 +172,10 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>之前玩qt，都是用自带的 qtCreator 这个编辑器，然后编译项目都是内置的qmake。这段时间，正好在做ffmpeg移植到android去，发现网上有不少关于qt+ffmpeg+opencv的结合，所以自己也把IDE改为了 clion。<br><br>当然，改过来问题多多，首先项目编译器都是cmake了，然后引入各种库，这里简单做下配置，ffmpeg和qt这边都是通过 homebrew来直接安装的，<br>对应的include路径都在：<br>        /usr/local/Cellar/ffmpeg/3.4.1/include/ <br><br>        /usr/local/Cellar/sdl2/2.0.7/include <br><br>        /usr/local/opt/qt/include<br><br>lib都在：<br>        usr/local/Cellar/ffmpeg/3.4.1/lib/ ,<br><br>        /usr/local/Cellar/sdl2/2.0.7/lib ,<br><br>        /usr/local/opt/qt/lib <br></p>
-<p>遇到的问题主要就是在编写cmakelists里面的配置， 这边贴下自己的代码：<br><br>    <pre><br>    cmake_minimum_required(VERSION 3.9)<br>project(QtFFmpeg)</pre></p>
-<p>set(CMAKE_CXX_FLAGS “${CMAKE_CXX_FLAGS} -std=c++11”)</p>
-<p>include_directories(/usr/local/Cellar/ffmpeg/3.4.1/include/ ,<br>        /usr/local/Cellar/sdl2/2.0.7/include ,<br>        /usr/local/opt/qt/include)<br>link_directories(/usr/local/Cellar/ffmpeg/3.4.1/lib/ ,<br>        /usr/local/Cellar/sdl2/2.0.7/lib ,<br>        /usr/local/opt/qt/lib)</p>
-<p>set(CMAKE_CXX_STANDARD 11)</p>
-<p>set(CMAKE_PREFIX_PATH “/usr/local/Cellar/qt/5.10.0”)</p>
+<p>遇到的问题主要就是在编写cmakelists里面的配置， 这边贴下自己的代码：<br><br>    <pre><br>cmake_minimum_required(VERSION 3.9)<br>project(QtFFmpeg)<br>set(CMAKE_CXX_FLAGS “${CMAKE_CXX_FLAGS} -std=c++11”)<br>include_directories(/usr/local/Cellar/ffmpeg/3.4.1/include/ ,/usr/local/Cellar/sdl2/2.0.7/include ,<br>        /usr/local/opt/qt/include)<br>link_directories(/usr/local/Cellar/ffmpeg/3.4.1/lib/ ,<br>        /usr/local/Cellar/sdl2/2.0.7/lib ,<br>        /usr/local/opt/qt/lib)<br>set(CMAKE_CXX_STANDARD 11)<br>set(CMAKE_PREFIX_PATH “/usr/local/Cellar/qt/5.10.0”)</pre></p>
 <p>find_package(Qt5Core REQUIRED)<br>find_package(Qt5Widgets REQUIRED)</p>
 <p>set(CMAKE_INCLUDE_CURRENT_DIR ON)<br>set(CMAKE_AUTOMOC ON)</p>
-<p>set(CMAKE_AUTOUIC ON) # .ui files<br>set(CMAKE_AUTORCC ON)</p>
-<p>qt5_wrap_ui(ui_FILES mainwindow.ui)</p>
-<p>set(SOURCE_FILES main.cpp mainwindow.cpp mainwindow.h ${ui_FILES})</p>
-<p>add_executable(QtFFmpeg main.cpp)</p>
-<p>target_link_libraries(<br>        QtFFmpeg<br>        avcodec<br>        avdevice<br>        avfilter<br>        avformat<br>        avresample<br>        avutil<br>        postproc<br>        swresample<br>        swscale<br>        SDL2<br>        Qt5::Widgets<br>        Qt5::Core<br>        Qt5::Gui<br>     </p>
+<p>set(CMAKE_AUTOUIC ON) # .ui files<br>set(CMAKE_AUTORCC ON)<br>qt5_wrap_ui(ui_FILES mainwindow.ui)<br>set(SOURCE_FILES main.cpp mainwindow.cpp mainwindow.h ${ui_FILES})<br>add_executable(QtFFmpeg main.cpp)<br>target_link_libraries(<br>        QtFFmpeg<br>        avcodec<br>        avdevice<br>        avfilter<br>        avformat<br>        avresample<br>        avutil<br>        postproc<br>        swresample<br>        swscale<br>        SDL2<br>        Qt5::Widgets<br>        Qt5::Core<br>        Qt5::Gui<br>     </p>
 <p>其中set(CMAKEPREFIXPATH “/usr/local/Cellar/qt/5.10.0”)， 这个是设置本地编译的cmake，必须是对应的qt里面的<br><br>如果我们用到了ui文件，必须使用 qt5wrapui<br><br>这边先简单记录下，等后续工程完了，打算传到github上去</p>
 
       
@@ -401,11 +393,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -425,11 +417,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -438,10 +434,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
               </li>
              
               <li class="article-tag-list-item">
