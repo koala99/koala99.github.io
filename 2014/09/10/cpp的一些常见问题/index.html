@@ -6,22 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://koala99.github.io">
-  <title>lbs开发中遇到的问题 | Whatever is worth doing is worth doing well</title>
+  <title>cpp的一些常见问题 | Whatever is worth doing is worth doing well</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在开发莫比动力中，遇到了一些问题，这边记录下，莫比动力采用的是百度地图的sdk进行定位服务，根据运动状况，记录运动轨迹。   首先必不可少遇到轨迹漂移的问题，个别轨迹漂移的问题还好解决，有时候就怕遇到长时间轨迹漂移的情况。   当个别位置漂移时，这边主要根据运动状态做了地址栅栏（在规定半径形成的圆中），如果不在此范围内，算作gps漂移，像静止状态下，速度立刻置零，而且不进行更新地图上的经纬度">
-<meta name="keywords" content="lbs,优化">
+  <meta name="description" content="大学那会学的cpp，到现在已经很少用到了，由于12年毕业至今一直写安卓，使用的是java语言，所以淡忘了cpp里面许多的概念。这边自己来记录下。  1.一个比较经典的问题——问以下两种声明的区别： const char  p 与  char  const p  这个问题实质就是考察你对const的理解,const 是用于修饰常量，所以前者p是指向常量字符的指针，不变的是char的值。 后者p是">
+<meta name="keywords" content="日常记录,cpp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="lbs开发中遇到的问题">
-<meta property="og:url" content="https://koala99.github.io/2014/09/15/lbs开发中遇到的问题/index.html">
+<meta property="og:title" content="cpp的一些常见问题">
+<meta property="og:url" content="https://koala99.github.io/2014/09/10/cpp的一些常见问题/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
-<meta property="og:description" content="在开发莫比动力中，遇到了一些问题，这边记录下，莫比动力采用的是百度地图的sdk进行定位服务，根据运动状况，记录运动轨迹。   首先必不可少遇到轨迹漂移的问题，个别轨迹漂移的问题还好解决，有时候就怕遇到长时间轨迹漂移的情况。   当个别位置漂移时，这边主要根据运动状态做了地址栅栏（在规定半径形成的圆中），如果不在此范围内，算作gps漂移，像静止状态下，速度立刻置零，而且不进行更新地图上的经纬度">
+<meta property="og:description" content="大学那会学的cpp，到现在已经很少用到了，由于12年毕业至今一直写安卓，使用的是java语言，所以淡忘了cpp里面许多的概念。这边自己来记录下。  1.一个比较经典的问题——问以下两种声明的区别： const char  p 与  char  const p  这个问题实质就是考察你对const的理解,const 是用于修饰常量，所以前者p是指向常量字符的指针，不变的是char的值。 后者p是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://ol76vrjwp.bkt.clouddn.com/871BDB0D-83FC-419B-A5C3-8C2C302F81C6.png">
-<meta property="og:updated_time" content="2017-02-11T06:48:42.000Z">
+<meta property="og:updated_time" content="2018-01-11T05:27:46.133Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lbs开发中遇到的问题">
-<meta name="twitter:description" content="在开发莫比动力中，遇到了一些问题，这边记录下，莫比动力采用的是百度地图的sdk进行定位服务，根据运动状况，记录运动轨迹。   首先必不可少遇到轨迹漂移的问题，个别轨迹漂移的问题还好解决，有时候就怕遇到长时间轨迹漂移的情况。   当个别位置漂移时，这边主要根据运动状态做了地址栅栏（在规定半径形成的圆中），如果不在此范围内，算作gps漂移，像静止状态下，速度立刻置零，而且不进行更新地图上的经纬度">
-<meta name="twitter:image" content="http://ol76vrjwp.bkt.clouddn.com/871BDB0D-83FC-419B-A5C3-8C2C302F81C6.png">
+<meta name="twitter:title" content="cpp的一些常见问题">
+<meta name="twitter:description" content="大学那会学的cpp，到现在已经很少用到了，由于12年毕业至今一直写安卓，使用的是java语言，所以淡忘了cpp里面许多的概念。这边自己来记录下。  1.一个比较经典的问题——问以下两种声明的区别： const char  p 与  char  const p  这个问题实质就是考察你对const的理解,const 是用于修饰常量，所以前者p是指向常量字符的指针，不变的是char的值。 后者p是">
   
     <link rel="alternative" href="/atom.xml" title="Whatever is worth doing is worth doing well" type="application/atom+xml">
   
@@ -153,28 +151,31 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-lbs开发中遇到的问题" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-cpp的一些常见问题" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      lbs开发中遇到的问题
+      cpp的一些常见问题
     </h1>
   
 
         
-        <a href="/2014/09/15/lbs开发中遇到的问题/" class="archive-article-date">
-  	<time datetime="2014-09-15T11:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-09-15</time>
+        <a href="/2014/09/10/cpp的一些常见问题/" class="archive-article-date">
+  	<time datetime="2014-09-10T10:52:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-09-10</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>   在开发莫比动力中，遇到了一些问题，这边记录下，莫比动力采用的是百度地图的sdk进行定位服务，根据运动状况，记录运动轨迹。<br><br>   首先必不可少遇到轨迹漂移的问题，个别轨迹漂移的问题还好解决，有时候就怕遇到长时间轨迹漂移的情况。<br><br>   当个别位置漂移时，这边主要根据运动状态做了地址栅栏（在规定半径形成的圆中），如果不在此范围内，算作gps漂移，像静止状态下，速度立刻置零，而且不进行更新地图上的经纬度；运动状态时，就需要根据运动速度，首先判断速度，类似那种超大速度，超大距离的点（与速度相关），都需要过滤掉。<br><br>   长时间漂移这边处理的方法，这边采用的是从第一个异常点开始计算，一定时间内，连续的出现异常点大于20这个边界值，就把这段时间的内统一清空，看做长时间漂移。<br>   在地图上展现轨迹时，如果把记录的点直接描点连线的话，会发现基本都是很突兀的直线连接，这边就需要采用 滑动平均平滑 算法，它的实现很简单，相邻5个点一组，进行计算:<br><br>   <img src="http://ol76vrjwp.bkt.clouddn.com/871BDB0D-83FC-419B-A5C3-8C2C302F81C6.png" alt=""></p>
-<p> <br><br> 这样绘制的曲线就更加平滑了。  </p>
+        <p>  大学那会学的cpp，到现在已经很少用到了，由于12年毕业至今一直写安卓，使用的是java语言，所以淡忘了cpp里面许多的概念。这边自己来记录下。<br><br>  1.一个比较经典的问题——问以下两种声明的区别： const char <em> p 与  char </em> const p<br><br>  这个问题实质就是考察你对const的理解,const 是用于修饰常量，所以前者p是指向常量字符的指针，不变的是char的值。 后者p是一个指向字符的常量指针，不变的是p的值，即该指针不能再指向别的。</p>
+<p></p><p></p>
+<ol>
+<li>指针与引用的共同点与区别<br><br>相同点，都是地址的概念。 指针指向一块内存，它的内容是所指内存的地址；引用是某块内存的别名。<br><br>不同点： 指针是一个实体，而引用仅是个别名；引用使用时无需解引用（*），指针需要解引用；引用只能在定义时被初始化一次，之后不可变；指针可变； 引用没有 const，指针有 const，const 的指针不可变；引用不能为空，指针可以为空.<br><br>3.深拷贝与浅拷贝<br><br>简单的说，一个对象复制另一个对象，并开辟内存空间，这就叫深拷贝，如果没有开辟新的内存空间，只是类似指针指向的，就是浅拷贝<br><br>4.野指针<br>野指针是变量没有被初始化。任何指针变量刚被创建时不会自动成为NULL指针，它的缺省值是随机的，它会乱指一气。所以，指针变量在创建的同时应当被初始化，要么将指针设置为NULL，要么让它指向合法的内存。<br>后续更新…</li>
+</ol>
 
       
 
@@ -188,11 +189,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">lbs</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">日常记录</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">优化</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">cpp</a>
         		</li>
       		
 		</ul>
@@ -204,11 +205,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
+        			<a href="/categories/日常记录/" class="article-tag-list-link color5">日常记录</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/优化/" class="article-tag-list-link color3">优化</a>
+        			<a href="/categories/cpp/" class="article-tag-list-link color4">cpp</a>
         		</li>
       		
 		</ul>
@@ -263,7 +264,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=https://koala99.github.io/2014/09/15/lbs开发中遇到的问题/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://koala99.github.io/2014/09/10/cpp的一些常见问题/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -277,18 +278,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2014/10/13/java gc原理/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/09/15/lbs开发中遇到的问题/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          java gc原理
+          lbs开发中遇到的问题
         
       </div>
     </a>
   
   
-    <a href="/2014/09/10/cpp的一些常见问题/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">cpp的一些常见问题</div>
+    <a href="/2014/08/03/java hashmap原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hashmap详解</div>
       <i class="icon-circle-right"></i>
     </a>
   
