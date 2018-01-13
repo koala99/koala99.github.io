@@ -148,6 +148,83 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-ffmpeg使用中的记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/30/ffmpeg使用中的记录/">ffmpeg使用中的记录</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/30/ffmpeg使用中的记录/" class="archive-article-date">
+  	<time datetime="2017-09-30T06:27:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>  新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:<br>     avcodec_send_packet(pCodecCtx, packet);<br>     ret = avcodec_receive_frame(pCodecCtx, pFrame);<br>解码时，先接受到packet，再来获取frame。<br>     avcodec_send_frame avcodec_receive_packet 这两个就是配套来进行编码。<br>   这边有自己以前写的ffmepg的一些应用，比如结合qt做一个播放器，<a><a href="https://github.com/koala99/FFmpegTest/tree/master" target="_blank" rel="noopener">https://github.com/koala99/FFmpegTest/tree/master</a></a><br>   还有自己在使用提供的ffplay工具来测试mp4解码分离的yuv 和 pcm时，sample_fmt 对应出来的是 fltp这个格式，所以播放的命令应该就是:<br>   <pre><br>   ffplay -ar 48000 -channel_layout 4 -channels 1  -f f32le -i audio.pcm</pre><br>   说实话，ffmpeg的门槛算是稍微高的，关键资料少，网上大多简单的都是命令来解决问题。所以，不得不耗费经历，自己来解决问题。 </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">音视频</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/多媒体/" class="article-tag-list-link color4">多媒体</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ffmpeg/" class="article-tag-list-link color2">ffmpeg</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/30/ffmpeg使用中的记录/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-mac下-clion配置qt的开发环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -155,13 +232,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/10/mac下-clion配置qt的开发环境/">mac下 clion配置qt的开发环境</a>
+      <a class="article-title" href="/2017/09/26/mac下-clion配置qt的开发环境/">mac下 clion配置qt的开发环境</a>
     </h1>
   
 
         
-        <a href="/2017/11/10/mac下-clion配置qt的开发环境/" class="archive-article-date">
-  	<time datetime="2017-11-10T12:57:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-10</time>
+        <a href="/2017/09/26/mac下-clion配置qt的开发环境/" class="archive-article-date">
+  	<time datetime="2017-09-26T12:57:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-26</time>
 </a>
         
       </header>
@@ -220,84 +297,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/10/mac下-clion配置qt的开发环境/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
-    <article id="post-ffmpeg使用中的记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/30/ffmpeg使用中的记录/">ffmpeg使用中的记录</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/30/ffmpeg使用中的记录/" class="archive-article-date">
-  	<time datetime="2017-09-30T06:27:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>  新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:<br>     avcodec_send_packet(pCodecCtx, packet);<br>     ret = avcodec_receive_frame(pCodecCtx, pFrame);<br>解码时，先接受到packet，再来获取frame。<br>     avcodec_send_frame avcodec_receive_packet 这两个就是配套来进行编码。<br>   这边有自己以前写的ffmepg的一些应用，比如结合qt做一个播放器，<a><a href="https://github.com/koala99/FFmpegTest/tree/master" target="_blank" rel="noopener">https://github.com/koala99/FFmpegTest/tree/master</a></a> </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">音视频</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/多媒体/" class="article-tag-list-link color4">多媒体</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/ffmpeg/" class="article-tag-list-link color2">ffmpeg</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/30/ffmpeg使用中的记录/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/09/26/mac下-clion配置qt的开发环境/">展开全文 >></a>
         </p>
       
 
@@ -1100,10 +1100,6 @@ return sortedClassCount[0][0]
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
               </li>
              
@@ -1129,6 +1125,10 @@ return sortedClassCount[0][0]
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
               </li>
              
               <li class="article-tag-list-item">

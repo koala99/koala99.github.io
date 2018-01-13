@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
 <meta property="og:description" content="新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:     avcodec_send_packet(pCodecCtx, packet);     ret = avcodec_receive_frame(pCodecCtx, pFrame);解码时，先接受到packet，再来获取frame。     avcodec_send_frame avcodec_receive">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-12T10:01:17.620Z">
+<meta property="og:updated_time" content="2018-01-13T16:22:50.763Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ffmpeg使用中的记录">
 <meta name="twitter:description" content="新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:     avcodec_send_packet(pCodecCtx, packet);     ret = avcodec_receive_frame(pCodecCtx, pFrame);解码时，先接受到packet，再来获取frame。     avcodec_send_frame avcodec_receive">
@@ -171,7 +171,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>  新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:<br>     avcodec_send_packet(pCodecCtx, packet);<br>     ret = avcodec_receive_frame(pCodecCtx, pFrame);<br>解码时，先接受到packet，再来获取frame。<br>     avcodec_send_frame avcodec_receive_packet 这两个就是配套来进行编码。<br>   这边有自己以前写的ffmepg的一些应用，比如结合qt做一个播放器，<a><a href="https://github.com/koala99/FFmpegTest/tree/master" target="_blank" rel="noopener">https://github.com/koala99/FFmpegTest/tree/master</a></a> </p>
+        <p>  新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:<br>     avcodec_send_packet(pCodecCtx, packet);<br>     ret = avcodec_receive_frame(pCodecCtx, pFrame);<br>解码时，先接受到packet，再来获取frame。<br>     avcodec_send_frame avcodec_receive_packet 这两个就是配套来进行编码。<br>   这边有自己以前写的ffmepg的一些应用，比如结合qt做一个播放器，<a><a href="https://github.com/koala99/FFmpegTest/tree/master" target="_blank" rel="noopener">https://github.com/koala99/FFmpegTest/tree/master</a></a><br>   还有自己在使用提供的ffplay工具来测试mp4解码分离的yuv 和 pcm时，sample_fmt 对应出来的是 fltp这个格式，所以播放的命令应该就是:<br>   <pre><br>   ffplay -ar 48000 -channel_layout 4 -channels 1  -f f32le -i audio.pcm</pre><br>   说实话，ffmpeg的门槛算是稍微高的，关键资料少，网上大多简单的都是命令来解决问题。所以，不得不耗费经历，自己来解决问题。 </p>
 
       
 
@@ -270,18 +270,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/11/10/mac下-clion配置qt的开发环境/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          mac下 clion配置qt的开发环境
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/08/24/ubuntu-16-04下drupal的安装与配置/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">ubuntu 16.04下drupal的安装与配置 </div>
+    <a href="/2017/09/26/mac下-clion配置qt的开发环境/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">mac下 clion配置qt的开发环境</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -393,10 +384,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
               </li>
              
@@ -422,6 +409,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
               </li>
              
               <li class="article-tag-list-item">
