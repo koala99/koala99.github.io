@@ -328,6 +328,95 @@
 
 
   
+    <article id="post-tcp的三次握手，四次挥手" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/10/18/tcp的三次握手，四次挥手/">tcp的三次握手，四次挥手</a>
+    </h1>
+  
+
+        
+        <a href="/2014/10/18/tcp的三次握手，四次挥手/" class="archive-article-date">
+  	<time datetime="2014-10-18T08:24:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-10-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TCP的传输连接分为3个阶段：连接建立（三次握手）、数据传送和连接释放（四次挥手）。TCP传输连接的管理就是使传输连接的建立和释放都能正常地进行。<br>准备工作：服务器必须准备好接受外来的连接。这通常通过调用socket,bind和listen这三个函数来完成。我们称之为被动打开。<br>第一次握手：客户端通过调用connect发起主动打开。客户端向服务器发出连接请求的TCP报文段，其TCP首部中的同步比特SYN置为1，并TCP首部中序号seq设置为x（TCP规定SYN报文段不能携带数据，但是要消耗一个序号），表明要转送数据时初始序列号是x。通常SYN分节不携带数据，其所在IP数据报只含有一个IP首部，一个TCP首部。  </p>
+<p>第二次握手：服务器收到数据报后，从TCP数据报首部的同步比特SYN位为1就知道这是一个建立连接的请求。服务器如果同意，会发回确认。在确认报文段中把同步比特位SYN设置为1，确认比特位ACK设置为1，由于TCP请求报文段中的序号是x，所以服务器在发送确认报文段中的确认号ack是x+1，同时把确认报文段中的序号seq设置为y，表明服务器发送数据的初始序列号为y。该报文段也不能携带数据（因为SYN=1，所以不携带任何数据）。  </p>
+<p>第三次握手：客户端收到服务器端的报文段后，要对服务器端中的SYN进行确认。在确认报文段中把确认比特位ACK设置为1，然后把确认号ack设置为y+1，自身的序号seq设置x+1。<br>注：客户的初始序列号为x,服务器的初始序列号为y，那么确认报文段中的确认号ack就是所期待的对方要发送的下一个序列号。   </p>
+<p>数据传输完毕后，通信双方都可以释放连接。对于首先调用close的一端我们称该端为主动关闭，另外一端执行被动关闭。   </p>
+<p>第一次挥手：假设客户端执行主动关闭，那么它会向服务器端发出释放连接的报文段，这个TCP报文段中终止比特FIN置为1，序号seq设置为u（假设上一个发的数据序号是u-1）。并停止发送数据。主动关闭TCP连接。等待服务器的确认，这里需要注意，因为TCP是全双工的，所以TCP连接上有两条数据通路，发送FIN的一端就不能发送数据，也就是关闭了其中一条数据通路，对方还是可以继续发送数据。   </p>
+<p>第二次挥手：服务器端收到客户端的释放连接的报文段后会执行被动关闭，它要对客户端的数据报进行确认，服务器端会发送一个确认的数据报，确认比特ACK设置为1，确认号为u+1，自身的序号seq为v(假设上一个发的数据序号是v-1)。这个时候TCP处于半关闭状态，服务器依然可以向客户端发送数据（数据的序号为v+1 ~ w-1），客户端任要接受。    </p>
+<p>第三次挥手：服务器端已经没有要发送给客户端的数据，那么服务器端也会调用close关闭套接字，这样服务器端也会发送一个FIN的TCP报文段，序号是w（假设上一个发的数据序号是w-1）。这个时候服务器端不会再向客户端发送数据了。   </p>
+<p>第四次挥手：客户端接受到这个最终的FIN的释放连接报文段后必须对报文段进行确认。在确认的报文段中，ACK=1,确认序号ack=w+1，自己的序号seq=u+1(他的上一个序号的数据报就是申请释放连接的数据报，序号是seq=u)。   </p>
+<p>为什么TCP握手是三次，挥手却是四次？（假设客户端主动，服务器端被动）<br>在TCP三次握手中，服务器端的SYN和ACK是放在一个TCP报文段中向客户端发送的，而在断开连接的过程中，服务器端向客户单端发送的ACK和FIN是是分别在两个不同的TCP报文段中。这是因为在服务器端接收到客户端的FIN后，服务器端可能还有数据要传输，所以先发送ACK，服务器端把数据发完之后就可以发送FIN断开连接了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">tcp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/数据结构/" class="article-tag-list-link color5">数据结构</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java/" class="article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2014/10/18/tcp的三次握手，四次挥手/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-reentrantlock与synchronized对比" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1008,91 +1097,9 @@ public View inflate() {
 
 
   
-    <article id="post-activity的一些生命周期场景" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/09/11/activity的一些生命周期场景/">activity的一些生命周期场景</a>
-    </h1>
-  
-
-        
-        <a href="/2012/09/11/activity的一些生命周期场景/" class="archive-article-date">
-  	<time datetime="2012-09-11T12:37:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2012-09-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h6>1，进入Activity</h6><br>　　onCreate -&gt; onStart -&gt; onResume<br><h6>2，BACK键</h6><br>　onPause　-&gt;　onStop　-&gt;　onDestroy<br><h6>3，HOME键</h6><br>　　　　　　Home键退出：onPause　-&gt;　onStop<br>　　　　　　Home键回来：onRestart -&gt; onStart　-&gt;　onResume<br><h6>4，休眠/恢复</h6><br>　　　　　　休眠：onPause<br>　　　　　　恢复：onResume<br><h6>5，旋转屏幕</h6><br>　　　　未设置android:configChanges：<br>　　　　　onPause -&gt; onStop -&gt; onDestory -&gt; onCreate -&gt; onStart -&gt; onResume<br>设置了android:configChanges=”orientation| keyboardHidden”：不会触发生命周期方法.<br><h6>6，来电</h6><br>　　　　来电，显示来电界面：onPause -&gt; onStop<br>　　　　关闭电话界面，重新回到当前Activity：onRestart -&gt; onStart　-&gt;　onResume　　　　<br><h6>7,其他Activity</h6><br>　　　　　　进入下一个Activity：<br>　　　　　　　　A.onPause -&gt; B.onCreate -&gt; B.onStart -&gt;B.onResume -&gt; A.onStop<br>　　　　　　从其他Activity返回至当前Acitivity：<br><br>　　　　　　　　onRestart -&gt; onStart　-&gt;　onResume<br>　　　　　　　　<br><br>　与Activity生命周期结合的应用场景<br><br><br><h6>3.1　　与广播(Broadcast)结合</h6>
-
-<p>在onResume注册广播(registerLinstener)，在onPause注销广播(unregisterLinstener)。 例如：</p>
-<p>做”摇一摇”功能（传感器）、监听网络变化，就可以在onResume中注册监听，在onPause里注销掉，已节省资源提高效率。</p>
-<p>　　　　</p>
-<h6>3.2与服务(Service)结合</h6>
-
-<p>在onStart绑定服务(bindService)，在onStop中取消绑定(unbindService)。 例如：</p>
-<p>需要通过Service定时更新UI上的数据，而Activity的可见周期在onStart与onStop之间，那么就可以再onStart时启动服务，在onStop时停止服务。为了节约系统资源，除了提高用户体验以外，开发人员应尽可能的优化程序。</p>
-<p>　　　　</p>
-<h6>3.3　　与Cursor结合</h6>
-
-<p>使用managedQuery让Activity帮你管理Cursor的生命周期，不用自己去close。</p>
-<p>　　　　</p>
-<h6>3.4　　释放资源</h6>
-
-<p>可以在onDestory中释放一些资源。比如可以在onDestory时调用MediaPlayer的release。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/android/" class="article-tag-list-link color3">android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2012/09/11/activity的一些生命周期场景/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1199,6 +1206,10 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">cpp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">并行计算</a>
               </li>
              
@@ -1207,11 +1218,15 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">cpp</a>
+                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1223,19 +1238,15 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1260,6 +1271,10 @@ public View inflate() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">tcp</a>
               </li>
              
               <li class="article-tag-list-item">
