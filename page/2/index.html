@@ -328,6 +328,97 @@
 
 
   
+    <article id="post-reentrantlock与synchronized对比" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/10/16/reentrantlock与synchronized对比/">reentrantlock与synchronized对比</a>
+    </h1>
+  
+
+        
+        <a href="/2014/10/16/reentrantlock与synchronized对比/" class="archive-article-date">
+  	<time datetime="2014-10-16T10:24:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>锁作为并发共享数据，保证一致性的工具，在JAVA平台有多种实现，我们常用的就是synchronized 和 ReentrantLock。相同点，他们都属于可重入锁，可重入锁，也叫做递归锁，指的是同一线程 外层函数获得锁之后 ，内层递归函数仍然有获取该锁的代码，但不受影响。可以看下面简单的例子：   </p>
+<p><pre><br>public class Test implements Runnable{<br>    public synchronized void get(){<br>    System.out.println(Thread.currentThread().getId());<br>        set();<br>    }<br>    public synchronized void set(){<br>    System.out.println(Thread.currentThread().getId());<br>    }<br>    @Override<br>    public void run() {<br>        get();<br>    }<br>    public static void main(String[] args) {<br>        Test ss=new Test();<br>        new Thread(ss).start();<br>        new Thread(ss).start();<br>        new Thread(ss).start();<br>    }<br>}<br></pre>   </p>
+<p><pre><br>public class Test implements Runnable {<br>    ReentrantLock lock = new ReentrantLock();<br>    public void get() {<br>        lock.lock();<br>    System.out.println(Thread.currentThread().getId());<br>        set();<br>        lock.unlock();<br>    }<br>    public void set() {<br>        lock.lock();<br>    System.out.println(Thread.currentThread().getId());<br>        lock.unlock();<br>    }<br>    @Override<br>    public void run() {<br>        get();<br>    }<br>    public static void main(String[] args) {<br>        Test ss = new Test();<br>        new Thread(ss).start();<br>        new Thread(ss).start();<br>        new Thread(ss).start();<br>    }<br>}<br></pre><br>两个例子最后的结果都是正确的，即 同一个线程id被连续输出两次。<br>可重入锁最大的作用是避免死锁.</p>
+<p>1、ReentrantLock 拥有Synchronized相同的并发性和内存语义，此外还多了 锁投票，定时锁等候和中断锁等候<br>线程A和B都要获取对象O的锁定，假设A获取了对象O锁，B将等待A释放对O的锁定，<br>如果使用 synchronized ，如果A不释放，B将一直等下去，不能被中断<br>如果 使用ReentrantLock，如果A不释放，可以使B在等待了足够长的时间以后，中断等待，而干别的事情</p>
+<p>ReentrantLock获取锁定与三种方式：<br>a) lock(), 如果获取了锁立即返回，如果别的线程持有锁，当前线程则一直处于休眠状态，直到获取锁<br>b) tryLock(), 如果获取了锁立即返回true，如果别的线程正持有锁，立即返回false；<br>c)tryLock(long timeout,TimeUnit unit)， 如果获取了锁定立即返回true，如果别的线程正持有锁，会等待参数给定的时间，在等待的过程中，如果获取了锁定，就返回true，如果等待超时，返回false；<br>d) lockInterruptibly:如果获取了锁定立即返回，如果没有获取锁定，当前线程处于休眠状态，直到或者锁定，或者当前线程被别的线程中断</p>
+<p>2、synchronized是在JVM层面上实现的，不但可以通过一些监控工具监控synchronized的锁定，而且在代码执行时出现异常，JVM会自动释放锁定，但是使用Lock则不行，lock是通过代码实现的，要保证锁定一定会被释放，就必须将unLock()放到finally{}中</p>
+<p>3、在资源竞争不是很激烈的情况下，Synchronized的性能要优于ReetrantLock，但是在资源竞争很激烈的情况下，Synchronized的性能会下降几十倍，但是ReetrantLock的性能能维持常态；</p>
+<p>5.0的多线程任务包对于同步的性能方面有了很大的改进，在原有synchronized关键字的基础上，又增加了ReentrantLock，以及各种Atomic类。了解其性能的优劣程度，有助与我们在特定的情形下做出正确的选择。</p>
+<p>总体的结论先摆出来：</p>
+<p>synchronized：<br>在资源竞争不是很激烈的情况下，偶尔会有同步的情形下，synchronized是很合适的。原因在于，编译程序通常会尽可能的进行优化synchronize，另外可读性非常好，不管用没用过5.0多线程包的程序员都能理解。</p>
+<p>ReentrantLock:<br>ReentrantLock提供了多样化的同步，比如有时间限制的同步，可以被Interrupt的同步（synchronized的同步是不能Interrupt的）等。在资源竞争不激烈的情形下，性能稍微比synchronized差点点。但是当同步非常激烈的时候，synchronized的性能一下子能下降好几十倍。而ReentrantLock确还能维持常态。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/数据结构/" class="article-tag-list-link color5">数据结构</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/java/" class="article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2014/10/16/reentrantlock与synchronized对比/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-java多线程详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1103,11 +1194,11 @@ public View inflate() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+                <a href="javascript:void(0)" class="js-tag color4">cpp</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">cpp</a>
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">

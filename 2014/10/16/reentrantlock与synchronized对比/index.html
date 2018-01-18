@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://koala99.github.io">
-  <title>Archives: 2014/9 | Whatever is worth doing is worth doing well</title>
+  <title>reentrantlock与synchronized对比 | Whatever is worth doing is worth doing well</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Whatever is worth doing is worth doing well">
-<meta property="og:url" content="https://koala99.github.io/archives/2014/09/index.html">
+  <meta name="description" content="锁作为并发共享数据，保证一致性的工具，在JAVA平台有多种实现，我们常用的就是synchronized 和 ReentrantLock。相同点，他们都属于可重入锁，可重入锁，也叫做递归锁，指的是同一线程 外层函数获得锁之后 ，内层递归函数仍然有获取该锁的代码，但不受影响。可以看下面简单的例子：    public class Test implements Runnable{    public">
+<meta name="keywords" content="java,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="reentrantlock与synchronized对比">
+<meta property="og:url" content="https://koala99.github.io/2014/10/16/reentrantlock与synchronized对比/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
+<meta property="og:description" content="锁作为并发共享数据，保证一致性的工具，在JAVA平台有多种实现，我们常用的就是synchronized 和 ReentrantLock。相同点，他们都属于可重入锁，可重入锁，也叫做递归锁，指的是同一线程 外层函数获得锁之后 ，内层递归函数仍然有获取该锁的代码，但不受影响。可以看下面简单的例子：    public class Test implements Runnable{    public">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-18T20:59:22.595Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Whatever is worth doing is worth doing well">
+<meta name="twitter:title" content="reentrantlock与synchronized对比">
+<meta name="twitter:description" content="锁作为并发共享数据，保证一致性的工具，在JAVA平台有多种实现，我们常用的就是synchronized 和 ReentrantLock。相同点，他们都属于可重入锁，可重入锁，也叫做递归锁，指的是同一线程 外层函数获得锁之后 ，内层递归函数仍然有获取该锁的代码，但不受影响。可以看下面简单的例子：    public class Test implements Runnable{    public">
   
     <link rel="alternative" href="/atom.xml" title="Whatever is worth doing is worth doing well" type="application/atom+xml">
   
@@ -146,136 +151,166 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-reentrantlock与synchronized对比" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/09/15/lbs开发中遇到的问题/" class="archive-article-date">
-  	<time datetime="2014-09-15T11:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-09-15</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/09/15/lbs开发中遇到的问题/">lbs开发中遇到的问题</a>
+    <h1 class="article-title" itemprop="name">
+      reentrantlock与synchronized对比
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2014/10/16/reentrantlock与synchronized对比/" class="archive-article-date">
+  	<time datetime="2014-10-16T10:24:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>锁作为并发共享数据，保证一致性的工具，在JAVA平台有多种实现，我们常用的就是synchronized 和 ReentrantLock。相同点，他们都属于可重入锁，可重入锁，也叫做递归锁，指的是同一线程 外层函数获得锁之后 ，内层递归函数仍然有获取该锁的代码，但不受影响。可以看下面简单的例子：   </p>
+<p><pre><br>public class Test implements Runnable{<br>    public synchronized void get(){<br>    System.out.println(Thread.currentThread().getId());<br>        set();<br>    }<br>    public synchronized void set(){<br>    System.out.println(Thread.currentThread().getId());<br>    }<br>    @Override<br>    public void run() {<br>        get();<br>    }<br>    public static void main(String[] args) {<br>        Test ss=new Test();<br>        new Thread(ss).start();<br>        new Thread(ss).start();<br>        new Thread(ss).start();<br>    }<br>}<br></pre>   </p>
+<p><pre><br>public class Test implements Runnable {<br>    ReentrantLock lock = new ReentrantLock();<br>    public void get() {<br>        lock.lock();<br>    System.out.println(Thread.currentThread().getId());<br>        set();<br>        lock.unlock();<br>    }<br>    public void set() {<br>        lock.lock();<br>    System.out.println(Thread.currentThread().getId());<br>        lock.unlock();<br>    }<br>    @Override<br>    public void run() {<br>        get();<br>    }<br>    public static void main(String[] args) {<br>        Test ss = new Test();<br>        new Thread(ss).start();<br>        new Thread(ss).start();<br>        new Thread(ss).start();<br>    }<br>}<br></pre><br>两个例子最后的结果都是正确的，即 同一个线程id被连续输出两次。<br>可重入锁最大的作用是避免死锁.</p>
+<p>1、ReentrantLock 拥有Synchronized相同的并发性和内存语义，此外还多了 锁投票，定时锁等候和中断锁等候<br>线程A和B都要获取对象O的锁定，假设A获取了对象O锁，B将等待A释放对O的锁定，<br>如果使用 synchronized ，如果A不释放，B将一直等下去，不能被中断<br>如果 使用ReentrantLock，如果A不释放，可以使B在等待了足够长的时间以后，中断等待，而干别的事情</p>
+<p>ReentrantLock获取锁定与三种方式：<br>a) lock(), 如果获取了锁立即返回，如果别的线程持有锁，当前线程则一直处于休眠状态，直到获取锁<br>b) tryLock(), 如果获取了锁立即返回true，如果别的线程正持有锁，立即返回false；<br>c)tryLock(long timeout,TimeUnit unit)， 如果获取了锁定立即返回true，如果别的线程正持有锁，会等待参数给定的时间，在等待的过程中，如果获取了锁定，就返回true，如果等待超时，返回false；<br>d) lockInterruptibly:如果获取了锁定立即返回，如果没有获取锁定，当前线程处于休眠状态，直到或者锁定，或者当前线程被别的线程中断</p>
+<p>2、synchronized是在JVM层面上实现的，不但可以通过一些监控工具监控synchronized的锁定，而且在代码执行时出现异常，JVM会自动释放锁定，但是使用Lock则不行，lock是通过代码实现的，要保证锁定一定会被释放，就必须将unLock()放到finally{}中</p>
+<p>3、在资源竞争不是很激烈的情况下，Synchronized的性能要优于ReetrantLock，但是在资源竞争很激烈的情况下，Synchronized的性能会下降几十倍，但是ReetrantLock的性能能维持常态；</p>
+<p>5.0的多线程任务包对于同步的性能方面有了很大的改进，在原有synchronized关键字的基础上，又增加了ReentrantLock，以及各种Atomic类。了解其性能的优劣程度，有助与我们在特定的情形下做出正确的选择。</p>
+<p>总体的结论先摆出来：</p>
+<p>synchronized：<br>在资源竞争不是很激烈的情况下，偶尔会有同步的情形下，synchronized是很合适的。原因在于，编译程序通常会尽可能的进行优化synchronize，另外可读性非常好，不管用没用过5.0多线程包的程序员都能理解。</p>
+<p>ReentrantLock:<br>ReentrantLock提供了多样化的同步，比如有时间限制的同步，可以被Interrupt的同步（synchronized的同步是不能Interrupt的）等。在资源竞争不激烈的情形下，性能稍微比synchronized差点点。但是当同步非常激烈的时候，synchronized的性能一下子能下降好几十倍。而ReentrantLock确还能维持常态。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">lbs</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">优化</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
+        			<a href="/categories/数据结构/" class="article-tag-list-link color5">数据结构</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/优化/" class="article-tag-list-link color3">优化</a>
+        			<a href="/categories/java/" class="article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://koala99.github.io/2014/10/16/reentrantlock与synchronized对比/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/09/10/cpp的一些常见问题/" class="archive-article-date">
-  	<time datetime="2014-09-10T10:52:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2014-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/09/10/cpp的一些常见问题/">cpp的一些常见问题</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">日常记录</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/日常记录/" class="article-tag-list-link color5">日常记录</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/cpp/" class="article-tag-list-link color4">cpp</a>
-        		</li>
-      		
-		</ul>
-	</div>
+  
+<nav id="article-nav">
+  
+    <a href="/2014/11/13/android架构浅谈/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          android架构浅谈
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/15/java多线程详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java多线程详解</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
+
+
+
   
-  
-    </div></section>
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -298,8 +333,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
