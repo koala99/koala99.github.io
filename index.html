@@ -460,6 +460,119 @@
 
 
   
+    <article id="post-android-nkd-的一些注意的地方" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/30/android-nkd-的一些注意的地方/">android nkd 的一些注意的地方</a>
+    </h1>
+  
+
+        
+        <a href="/2016/11/30/android-nkd-的一些注意的地方/" class="archive-article-date">
+  	<time datetime="2016-11-30T06:27:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用android ndk中，我们定义cpp的一些方法，里面参数类型对应关系对应，值得注意。<br>java内部是使用16bit的unicode编码（UTF-16）来表示字符串的，无论中文英文都是2字节；<br>jni内部是使用UTF-8编码来表示字符串的，UTF-8是变长编码的unicode，一般ascii字符是1字节，中文是3字节；<br>c/c++使用的是原始数据，ascii就是一个字节了，中文一般是GB2312编码，用两个字节来表示一个汉字。<br>列举下jni中一些常见的方法：   </p>
+<pre>
+xtern "C"
+JNIEXPORT jstring
+JNICALL
+Java_com_android_ndkdemo_NativeUtils_changeString(
+        JNIEnv *env, jclass,jstring str) {
+    const char *char1 =env->GetStringUTFChars(str, false);
+    string str2(char1);
+    str2+="1222";
+    env->ReleaseStringUTFChars(str,char1);
+    return env->NewStringUTF(str2.c_str());
+}</pre>
+上面只是稍微简单的字符串传递，还有更麻烦的就是容器类传递，比如list，这里面在jni中，都当做jobject来处理，根据方法获取他们的class，method，最后来调用，可以看下面的例子:   
+<pre>Java_com_android_ndkdemo_NativeUtils_changeStringList(
+        JNIEnv *env, jclass, jobject strlist) {
+    //静态方法 GetStaticMethodID
+    jclass cls_arraylist = env->GetObjectClass(strlist);
+    jmethodID arraylist_get = env->GetMethodID(cls_arraylist, "get", "(I)Ljava/lang/Object;");
+    jmethodID arraylist_size = env->GetMethodID(cls_arraylist, "size", "()I");
+    jmethodID arrayList_add = env->GetMethodID(cls_arraylist, "add", "(Ljava/lang/Object;)Z");
+    const char *cc = "hello";
+    jstring jrstr;
+    jrstr = env->NewStringUTF(cc);
+//    env->CallObjectMethod(strlist, arrayList_add, jrstr);
+    env->CallBooleanMethod(strlist, arrayList_add, jrstr);
+
+    jint len = env->CallIntMethod(strlist, arraylist_size);
+    char buf[64];
+    sprintf(buf, "%d", len);
+    jstring str = env->NewStringUTF(buf);
+    LOGD(env->GetStringUTFChars(str, false));
+    return strlist;
+}
+</pre>
+
+<p>如需参考，可以看下github地址：<a><a href="https://github.com/koala99/androidtest/tree/master/ndkdemo" target="_blank" rel="noopener">https://github.com/koala99/androidtest/tree/master/ndkdemo</a></a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">android ndk</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/android/" class="article-tag-list-link color3">android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/ndk/" class="article-tag-list-link color4">ndk</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/11/30/android-nkd-的一些注意的地方/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-ios-开发小结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -919,86 +1032,6 @@ return sortedClassCount[0][0]
 
 
   
-    <article id="post-机器学习初学" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/10/机器学习初学/">机器学习入门系列_准备篇</a>
-    </h1>
-  
-
-        
-        <a href="/2015/04/10/机器学习初学/" class="archive-article-date">
-  	<time datetime="2015-04-10T11:52:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>  现在公司的一个留美回来的博士就是美国那边做机器学习方面的工作，当时感觉还挺有意思的，觉得机器学习也很有前途的，于是还买了一本图解学习的书看了下，奈何里面都是公式的推导，看的懵逼懵逼的。<br><br> 可能我擅长实践但是缺乏理论，于是乎，趁最近工作不是很繁忙，自己重新捡回来了大学的高数，概率论和线性代数。<br> 首先记录下机器学习的一些数学基本知识。<br><br> <pre><br> 高数：<br>常见函数求导<br>导数运算法则<br>复合函数求导<br>方向导数与梯度（难点）<br>凸集与凸函数<br>一元函数求极值<br>多元函数求极值（了解）<br>拉格朗日乘子法<br>泰勒公式展开<br>空间解析几何和向量代数</pre></p>
-<p>线性代数</p>
-<p>线性代数：<br>矩阵的定义，矩阵的转置<br>单位矩阵，三角矩阵，对称矩阵<br>向量内积，相关性<br>正交向量组，标准正交基，正交矩阵<br>特征值分解</p>
-<p>概率论<br>事件的关系与运算：<br>条件概率，全概率公式，贝叶斯公式<br>随机变量的期望，方差<br>协方差，相关系数，协方差矩阵<br>概率分布：0-1分布，二项分布，高斯分布<br>极大似然函数估计<br>大数定律，伯努利大数定律，中心极限定理<br> <br> 这次，自己又买了一本machine learning in action的书籍，从它开始一步一步学习。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习/" class="article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/初学篇/" class="article-tag-list-link color4">初学篇</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2015/04/10/机器学习初学/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1100,11 +1133,27 @@ return sortedClassCount[0][0]
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">android ndk</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">service</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">cpp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1116,23 +1165,11 @@ return sortedClassCount[0][0]
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">cpp</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1160,14 +1197,6 @@ return sortedClassCount[0][0]
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">lbs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">qt</a>
               </li>
              
@@ -1180,15 +1209,23 @@ return sortedClassCount[0][0]
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">lbs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">tcp</a>
+                <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
+                <a href="javascript:void(0)" class="js-tag color4">tcp</a>
               </li>
             
             <div class="clearfix"></div>
