@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
 <meta property="og:description" content="大学那会学的cpp，到现在已经很少用到了，由于12年毕业至今一直写安卓，使用的是java语言，所以淡忘了cpp里面许多的概念。这边自己来记录下。  1.一个比较经典的问题——问以下两种声明的区别： const char  p 与  char  const p  这个问题实质就是考察你对const的理解,const 是用于修饰常量，所以前者p是指向常量字符的指针，不变的是char的值。 后者p是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-11T05:27:46.133Z">
+<meta property="og:updated_time" content="2018-01-20T05:22:09.626Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cpp的一些常见问题">
 <meta name="twitter:description" content="大学那会学的cpp，到现在已经很少用到了，由于12年毕业至今一直写安卓，使用的是java语言，所以淡忘了cpp里面许多的概念。这边自己来记录下。  1.一个比较经典的问题——问以下两种声明的区别： const char  p 与  char  const p  这个问题实质就是考察你对const的理解,const 是用于修饰常量，所以前者p是指向常量字符的指针，不变的是char的值。 后者p是">
@@ -174,8 +174,11 @@
         <p>  大学那会学的cpp，到现在已经很少用到了，由于12年毕业至今一直写安卓，使用的是java语言，所以淡忘了cpp里面许多的概念。这边自己来记录下。<br><br>  1.一个比较经典的问题——问以下两种声明的区别： const char <em> p 与  char </em> const p<br><br>  这个问题实质就是考察你对const的理解,const 是用于修饰常量，所以前者p是指向常量字符的指针，不变的是char的值。 后者p是一个指向字符的常量指针，不变的是p的值，即该指针不能再指向别的。</p>
 <p></p><p></p>
 <ol>
-<li>指针与引用的共同点与区别<br><br>相同点，都是地址的概念。 指针指向一块内存，它的内容是所指内存的地址；引用是某块内存的别名。<br><br>不同点： 指针是一个实体，而引用仅是个别名；引用使用时无需解引用（*），指针需要解引用；引用只能在定义时被初始化一次，之后不可变；指针可变； 引用没有 const，指针有 const，const 的指针不可变；引用不能为空，指针可以为空.<br><br>3.深拷贝与浅拷贝<br><br>简单的说，一个对象复制另一个对象，并开辟内存空间，这就叫深拷贝，如果没有开辟新的内存空间，只是类似指针指向的，就是浅拷贝<br><br>4.野指针<br>野指针是变量没有被初始化。任何指针变量刚被创建时不会自动成为NULL指针，它的缺省值是随机的，它会乱指一气。所以，指针变量在创建的同时应当被初始化，要么将指针设置为NULL，要么让它指向合法的内存。<br>后续更新…</li>
+<li>指针与引用的共同点与区别<br><br>相同点，都是地址的概念。 指针指向一块内存，它的内容是所指内存的地址；引用是某块内存的别名。<br><br>不同点： 指针是一个实体，而引用仅是个别名；引用使用时无需解引用（<em>），指针需要解引用；引用只能在定义时被初始化一次，之后不可变；指针可变； 引用没有 const，指针有 const，const 的指针不可变；引用不能为空，指针可以为空.<br><br>3.深拷贝与浅拷贝<br><br>简单的说，一个对象复制另一个对象，并开辟内存空间，这就叫深拷贝，如果没有开辟新的内存空间，只是类似指针指向的，就是浅拷贝<br><br>4.野指针<br>野指针是变量没有被初始化。任何指针变量刚被创建时不会自动成为NULL指针，它的缺省值是随机的，它会乱指一气。所以，指针变量在创建的同时应当被初始化，要么将指针设置为NULL，要么让它指向合法的内存。<br>5.sizeof与strlen的区别<br><pre><br>char str[20]=”0123456789”;<br>int a=strlen(str); a=10;strlen 计算字符串的长度，以\0’为字符串结束标记。<br>int b=sizeof(str); b=20;sizeof 计算的则是分配的数组str[20] 所占的内存空间的大小，不受里面存储的内容影响<br>再看下面的：（64位编译器下面）<br>char </pre></em>str1=”absde”;<br>char str2[]=”absde”;<br>char str3[8]={‘a’,};<br>char ss[] = “0123456789”;</li>
 </ol>
+<p>sizeof(str1)=8<br>sizeof(str2)=6;<br>sizeof(str3)=8;<br>sizeof(ss)=11</p>
+<p><pre><br>首先说明一点，char类型占一个字节，所以sizeof(char)是1，这点要理解<br>str1是一个指针，只是指向了字符串”absde”而已。所以sizeof(str1)不是字符串占的空间也不是字符数组占的空间，而是一个字符型指针占的空间。所以sizeof(str1)=sizeof(char<em>)=8，在C/C++中一个指针占8个字节<br>str2是一个字符型数组。C/C++规定，对于一个数组，返回这个数组占的总空间，所以sizeof(str2)取得的是字符串”absde”占的总空间。”absde”中，共有a b s d e \0六个字符，所以str2数组的长度是6，所以sizeof(str2)=6</em>sizeof(char)=6<br>str3已经定义成了长度是8的数组，所以sizeof(str3)为8<br>str4和str2类似，’0’ ‘1’ … ‘9’加上’\0’共11个字符，所以ss占的空间是8   </pre></p>
+<p>后续更新…</p>
 
       
 
@@ -401,15 +404,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
+                <a href="javascript:void(0)" class="js-tag color3">service</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">cpp</a>
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -421,7 +420,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
+                <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -430,6 +433,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">cpp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
               </li>
              
               <li class="article-tag-list-item">
