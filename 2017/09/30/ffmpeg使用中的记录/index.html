@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://koala99.github.io">
   <title>ffmpeg使用中的记录 | Whatever is worth doing is worth doing well</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:     avcodec_send_packet(pCodecCtx, packet);     ret = avcodec_receive_frame(pCodecCtx, pFrame);解码时，先接受到packet，再来获取frame。     avcodec_send_frame avcodec_receive">
+  <meta name="description" content="首先是一点简单音视频基本常识：  （音频编码率（KBit为单位）/8 + 视频编码率（KBit为单位）/8）× 影片总长度（秒为单位）= 文件大小（MB为单位）  对于音频  首先一张标准音乐CD光盘容量是746.93MB。注意大B是字节，小b是位。一字节（B）等于8位（b）。CD音频是以采样率为44.1KHZ，采样位数为16位，左右双声道（立体声）进行采样的。而一张标准CD光盘的时长是74分">
 <meta name="keywords" content="音视频">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ffmpeg使用中的记录">
 <meta property="og:url" content="https://koala99.github.io/2017/09/30/ffmpeg使用中的记录/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
-<meta property="og:description" content="新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:     avcodec_send_packet(pCodecCtx, packet);     ret = avcodec_receive_frame(pCodecCtx, pFrame);解码时，先接受到packet，再来获取frame。     avcodec_send_frame avcodec_receive">
+<meta property="og:description" content="首先是一点简单音视频基本常识：  （音频编码率（KBit为单位）/8 + 视频编码率（KBit为单位）/8）× 影片总长度（秒为单位）= 文件大小（MB为单位）  对于音频  首先一张标准音乐CD光盘容量是746.93MB。注意大B是字节，小b是位。一字节（B）等于8位（b）。CD音频是以采样率为44.1KHZ，采样位数为16位，左右双声道（立体声）进行采样的。而一张标准CD光盘的时长是74分">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-13T16:22:50.763Z">
+<meta property="og:updated_time" content="2018-01-25T07:13:14.747Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ffmpeg使用中的记录">
-<meta name="twitter:description" content="新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:     avcodec_send_packet(pCodecCtx, packet);     ret = avcodec_receive_frame(pCodecCtx, pFrame);解码时，先接受到packet，再来获取frame。     avcodec_send_frame avcodec_receive">
+<meta name="twitter:description" content="首先是一点简单音视频基本常识：  （音频编码率（KBit为单位）/8 + 视频编码率（KBit为单位）/8）× 影片总长度（秒为单位）= 文件大小（MB为单位）  对于音频  首先一张标准音乐CD光盘容量是746.93MB。注意大B是字节，小b是位。一字节（B）等于8位（b）。CD音频是以采样率为44.1KHZ，采样位数为16位，左右双声道（立体声）进行采样的。而一张标准CD光盘的时长是74分">
   
     <link rel="alternative" href="/atom.xml" title="Whatever is worth doing is worth doing well" type="application/atom+xml">
   
@@ -171,7 +171,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>  新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:<br>     avcodec_send_packet(pCodecCtx, packet);<br>     ret = avcodec_receive_frame(pCodecCtx, pFrame);<br>解码时，先接受到packet，再来获取frame。<br>     avcodec_send_frame avcodec_receive_packet 这两个就是配套来进行编码。<br>   这边有自己以前写的ffmepg的一些应用，比如结合qt做一个播放器，<a><a href="https://github.com/koala99/FFmpegTest/tree/master" target="_blank" rel="noopener">https://github.com/koala99/FFmpegTest/tree/master</a></a><br>   还有自己在使用提供的ffplay工具来测试mp4解码分离的yuv 和 pcm时，sample_fmt 对应出来的是 fltp这个格式，所以播放的命令应该就是:<br>   <pre><br>   ffplay -ar 48000 -channel_layout 4 -channels 1  -f f32le -i audio.pcm</pre><br>   说实话，ffmpeg的门槛算是稍微高的，关键资料少，网上大多简单的都是命令来解决问题。所以，不得不耗费经历，自己来解决问题。 </p>
+        <p>  首先是一点简单音视频基本常识：<br>  （音频编码率（KBit为单位）/8 + 视频编码率（KBit为单位）/8）× 影片总长度（秒为单位）= 文件大小（MB为单位）<br>  对于音频<br>  首先一张标准音乐CD光盘容量是746.93MB。注意大B是字节，小b是位。一字节（B）等于8位（b）。<br>CD音频是以采样率为44.1KHZ，采样位数为16位，左右双声道（立体声）进行采样的。而一张标准CD光盘的时长是74分钟<br>那么容量计算公式为：(44100<em>16</em>2)/8<em>(74</em>60)=783216000字节   转为MB为  783216000/1024/1024=746.93MB(兆字节)<br>对于视频：<br>帧率：影响画面流畅度，与画面流畅度成正比：帧率越大，画面越流畅；帧率越小，画面越有跳动感。如果码率为变量，则帧率也会影响体积，帧率越高，每秒钟经过的画面越多，需要的码率也越高，体积也越大。帧率就是在1秒钟时间里传输的图片的帧数，也可以理解为图形处理器每秒钟能够刷新几次。</p>
+<p>分辨率：影响图像大小，与图像大小成正比：分辨率越高，图像越大；分辨率越低，图像越小。</p>
+<p>清晰度</p>
+<p>在码率一定的情况下，分辨率与清晰度成反比关系：分辨率越高，图像越不清晰，分辨率越低，图像越清晰。</p>
+<p>在分辨率一定的情况下，码率与清晰度成正比关系，码率越高，图像越清晰；码率越低，图像越不清晰。</p>
+<p>  新版本的ffmepg中，音视频的解码，编码都共用同一套了，一个很简单的例子:<br>     avcodec_send_packet(pCodecCtx, packet);<br>     ret = avcodec_receive_frame(pCodecCtx, pFrame);<br>解码时，先接受到packet，再来获取frame。<br>     avcodec_send_frame avcodec_receive_packet 这两个就是配套来进行编码。<br>   这边有自己以前写的ffmepg的一些应用，比如结合qt做一个播放器，<a><a href="https://github.com/koala99/FFmpegTest/tree/master" target="_blank" rel="noopener">https://github.com/koala99/FFmpegTest/tree/master</a></a><br>   还有自己在使用提供的ffplay工具来测试mp4解码分离的yuv 和 pcm时，sample_fmt 对应出来的是 fltp这个格式，所以播放的命令应该就是:<br>   <pre><br>   ffplay -ar 48000 -channel_layout 4 -channels 1  -f f32le -i audio.pcm</pre><br>   说实话，ffmpeg的门槛算是稍微高的，关键资料少，网上大多简单的都是命令来解决问题。所以，不得不耗费经历，自己来解决问题。 </p>
 
       
 
@@ -376,15 +381,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">android ndk</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">numpy</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">android ndk</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -408,22 +413,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">并行计算</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">cuda</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">音视频</a>
               </li>
              
@@ -436,7 +425,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -445,6 +442,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">lbs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">优化</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -460,14 +465,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">lbs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">优化</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
               </li>
              
@@ -477,6 +474,14 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">tcp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">并行计算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">cuda</a>
               </li>
             
             <div class="clearfix"></div>
