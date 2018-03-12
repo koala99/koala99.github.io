@@ -148,86 +148,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-机器学习初学" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/10/机器学习初学/">机器学习入门系列_准备篇</a>
-    </h1>
-  
-
-        
-        <a href="/2015/04/10/机器学习初学/" class="archive-article-date">
-  	<time datetime="2015-04-10T11:52:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>  现在公司的一个留美回来的博士就是美国那边做机器学习方面的工作，当时感觉还挺有意思的，觉得机器学习也很有前途的，于是还买了一本图解学习的书看了下，奈何里面都是公式的推导，看的懵逼懵逼的。<br><br> 可能我擅长实践但是缺乏理论，于是乎，趁最近工作不是很繁忙，自己重新捡回来了大学的高数，概率论和线性代数。<br> 首先记录下机器学习的一些数学基本知识。<br><br> <pre><br> 高数：<br>常见函数求导<br>导数运算法则<br>复合函数求导<br>方向导数与梯度（难点）<br>凸集与凸函数<br>一元函数求极值<br>多元函数求极值（了解）<br>拉格朗日乘子法<br>泰勒公式展开<br>空间解析几何和向量代数</pre></p>
-<p>线性代数</p>
-<p>线性代数：<br>矩阵的定义，矩阵的转置<br>单位矩阵，三角矩阵，对称矩阵<br>向量内积，相关性<br>正交向量组，标准正交基，正交矩阵<br>特征值分解</p>
-<p>概率论<br>事件的关系与运算：<br>条件概率，全概率公式，贝叶斯公式<br>随机变量的期望，方差<br>协方差，相关系数，协方差矩阵<br>概率分布：0-1分布，二项分布，高斯分布<br>极大似然函数估计<br>大数定律，伯努利大数定律，中心极限定理<br> <br> 这次，自己又买了一本machine learning in action的书籍，从它开始一步一步学习。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习/" class="article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/初学篇/" class="article-tag-list-link color4">初学篇</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2015/04/10/机器学习初学/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
     <article id="post-NumPy常用的函数库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1055,6 +975,131 @@ public static void main(String[] args) {
 
 
   
+    <article id="post-布局标签的简单思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/04/11/布局标签的简单思考/">布局标签的简单思考</a>
+    </h1>
+  
+
+        
+        <a href="/2013/04/11/布局标签的简单思考/" class="archive-article-date">
+  	<time datetime="2013-04-11T12:19:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-04-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>   一直在用用一些常用的布局标签，include,merge,viewstub，但是否真的了解其原理呢？<br><br>   首先我们用的viewstub实际上就是一个懒加载，为什么这么说呢？来看源码：</p>
+<pre><code>public final class ViewStub extends View {  
+ ......  
+public View inflate() {  
+    final ViewParent viewParent = getParent(); // 1 为什么可以直接获取父视图？  
+
+      // ViewStub的父视图必须是ViewGroup的子类  
+    if (viewParent != null &amp;&amp; viewParent instanceof ViewGroup) {  
+        if (mLayoutResource != 0) { // ViewStub必须设置android:layout属性  
+            final ViewGroup parent = (ViewGroup) viewParent;  
+            final LayoutInflater factory;  
+            if (mInflater != null) {  
+                factory = mInflater;  
+            } else {  
+                factory = LayoutInflater.from(mContext);  
+            }  
+            // 2 inflate被加载视图   
+            final View view = factory.inflate(mLayoutResource, parent,  
+                    false);  
+
+            if (mInflatedId != NO_ID) {  
+                view.setId(mInflatedId);  
+            }  
+
+            // 从父视图中获取当前ViewStub在父视图中的位置  
+            final int index = parent.indexOfChild(this);  
+            // 当前ViewStub也是个View仅仅只是用来占位，所以先把占位的ViewStub视图删除  
+            parent.removeViewInLayout(this);  
+
+            // 3 此处获取的是ViewStub上面设置的参数  
+            final ViewGroup.LayoutParams layoutParams = getLayoutParams();  
+            if (layoutParams != null) {  
+                parent.addView(view, index, layoutParams);  
+            } else {  
+                parent.addView(view, index);  
+            }  
+
+            // 目的是在复写的setVisibility方法中使用  
+            // 因为ViewStub.setVisibility操作的是被加载视图并非当前ViewStub视图  
+            mInflatedViewRef = new WeakReference&lt;View&gt;(view);  
+
+            // 调用监听  
+            if (mInflateListener != null) {  
+                mInflateListener.onInflate(this, view);  
+            }  
+
+            // 返回被加载视图，如果不需要当前可以忽略此返回对象  
+            return view;  
+        } else {  
+            throw new IllegalArgumentException(&quot;ViewStub must have a valid layoutResource&quot;);  
+        }  
+    } else {  
+        throw new IllegalStateException(&quot;ViewStub must have a non-null ViewGroup viewParent&quot;);  
+    }  
+}  
+ ...... 
+  } 
+</code></pre><p>   可以发现，它构造时：<br>   <pre><br>   public ViewStub(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {<br>        super(context);<br>        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewStub, defStyleAttr, defStyleRes);<br>        mInflatedId = a.getResourceId(R.styleable.ViewStub_inflatedId, NO_ID);<br>        mLayoutResource = a.getResourceId(R.styleable.ViewStub_layout, 0);<br>        mID = a.getResourceId(R.styleable.ViewStub_id, NO_ID);<br>        a.recycle();<br>        setVisibility(GONE);<br>        setWillNotDraw(true);<br>    }<br> </pre></p>
+<p>首选设置需要加载的view为gone，setWillNotDraw为true，继承View.java，代表就是不绘制该布局，而我们一般的view设置为gone时，默认会加入布局绘制的，viewstub它真正绘制就是在调用了inflate()方法时，viewparent就把它加入进来。<br>merge我们也经常用到，它起的作用也很简单，减少层级，看看主要源码:<br>   <pre><br>     mLayout = new LinearLayout(this);<br>     mLayout.setOrientation(LinearLayout.VERTICAL);<br>  LayoutInflater.from(this).inflate(R.layout.merge_tag, mLayout);<br>    setContentView(mLayout);<br> </pre></p>
+<p> 另外我们经常会加一个空格空间，经常的做法就是一个没有文字的textview来做，，这样它会参与视图的绘制，实际上我们可以用Space来做，看他的源码可以发现，它的ondraw方法为空，确实很轻量级。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/android/" class="article-tag-list-link color3">android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2013/04/11/布局标签的简单思考/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1160,6 +1205,14 @@ public static void main(String[] args) {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">service</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">日常记录</a>
               </li>
              
@@ -1169,22 +1222,6 @@ public static void main(String[] args) {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">service</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">android</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">并行计算</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">cuda</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1208,10 +1245,6 @@ public static void main(String[] args) {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
               </li>
              
@@ -1220,11 +1253,7 @@ public static void main(String[] args) {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">lbs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">优化</a>
+                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1240,6 +1269,18 @@ public static void main(String[] args) {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">lbs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
               </li>
              
@@ -1248,7 +1289,11 @@ public static void main(String[] args) {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
+                <a href="javascript:void(0)" class="js-tag color5">并行计算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">cuda</a>
               </li>
             
             <div class="clearfix"></div>
