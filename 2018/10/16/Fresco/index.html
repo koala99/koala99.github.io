@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://koala99.github.io">
-  <title>Archives: 2017/3 | Whatever is worth doing is worth doing well</title>
+  <title>Fresco | Whatever is worth doing is worth doing well</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Whatever is worth doing is worth doing well">
-<meta property="og:url" content="https://koala99.github.io/archives/2017/03/index.html">
+  <meta name="description" content="Fresco源码解析： mvc架构：View 对应DraweeView类（实际上是DraweeHolder），其负责展示数据，显示图片。Model对应DraweeHierarchy类，其负责持有数据，用一个层级组织和维护最终绘制和显示的图片。对应DraweeController类，其负责控制数据的逻辑。 内存管理机制，利用了Android 5.0以下版本不会GC回收的Ashem区域，极大的减小了O">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fresco">
+<meta property="og:url" content="https://koala99.github.io/2018/10/16/Fresco/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
+<meta property="og:description" content="Fresco源码解析： mvc架构：View 对应DraweeView类（实际上是DraweeHolder），其负责展示数据，显示图片。Model对应DraweeHierarchy类，其负责持有数据，用一个层级组织和维护最终绘制和显示的图片。对应DraweeController类，其负责控制数据的逻辑。 内存管理机制，利用了Android 5.0以下版本不会GC回收的Ashem区域，极大的减小了O">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-15T17:40:26.623Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Whatever is worth doing is worth doing well">
+<meta name="twitter:title" content="Fresco">
+<meta name="twitter:description" content="Fresco源码解析： mvc架构：View 对应DraweeView类（实际上是DraweeHolder），其负责展示数据，显示图片。Model对应DraweeHierarchy类，其负责持有数据，用一个层级组织和维护最终绘制和显示的图片。对应DraweeController类，其负责控制数据的逻辑。 内存管理机制，利用了Android 5.0以下版本不会GC回收的Ashem区域，极大的减小了O">
   
     <link rel="alternative" href="/atom.xml" title="Whatever is worth doing is worth doing well" type="application/atom+xml">
   
@@ -146,79 +150,129 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Fresco" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/03/cuda的通信模型/" class="archive-article-date">
-  	<time datetime="2017-03-03T05:53:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-03</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/03/cuda的通信模型/">cuda的通信模型</a>
+    <h1 class="article-title" itemprop="name">
+      Fresco
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">并行计算</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">cuda</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        <a href="/2018/10/16/Fresco/" class="archive-article-date">
+  	<time datetime="2018-10-16T12:38:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Fresco源码解析：</p>
+<p>mvc架构：<br>View 对应DraweeView类（实际上是DraweeHolder），其负责展示数据，显示图片。<br>Model对应DraweeHierarchy类，其负责持有数据，用一个层级组织和维护最终绘制和显示的图片。<br>对应DraweeController类，其负责控制数据的逻辑。</p>
+<p>内存管理机制，利用了Android 5.0以下版本不会GC回收的Ashem区域，极大的减小了OOM发生的概率，提高了内存利用率。</p>
+<pre><code>主要包含3级缓存，按照优先级逐级命中并返回。
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/并行计算/" class="article-tag-list-link color5">并行计算</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/cuda/" class="article-tag-list-link color5">cuda</a>
-        		</li>
-      		
-		</ul>
-	</div>
+      1）找Bitmap cache中是否有图片，有则加载，否则接着找；
 
+      2）再看Encoded Memory中是否有图片，有则decode，transform 后加载图片，并将图片存储进Bitmap Cache,找不到则接着往下找;
 
+      3)下一步看Disk Cache(官网有对这个命名的解释,看完大家都明白了：Yes, we know phones don’t have disks, but it’s too tedious to keep saying local storage cache)，有则decode，transform 后加载图片，
+</code></pre><p>并将图片存储进Bitmap Cache,Encoded Memory中，找不到则接着往下找;</p>
+<pre><code>4）最后就是终极network cache寻找，有则decode，transform 后加载图片，并将图片存储进Bitmap Cache ,Encoded Memory, Disk Cache，当然如果没有就直接加载失败了。
+</code></pre><p>这里面涉及到一个知识点：bitmap复用内存块：<br><br>     对于bitmap而言, getAllocationByteCount（） 是指被复用的内存大小在<br>                   android3.0到8.0之前bitmap在内存中的java在8.0以后bitmap在内存中的native中<br>                   所以我们要手动释放bitmap这里复用池采用的是弱引用<br>                   被gc扫过一次后放入引用队列用  引用队列开启线程进行处理bitmap  将bitmap释放</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://koala99.github.io/2018/10/16/Fresco/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/09/30/ffmpeg使用中的记录/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ffmpeg使用中的记录</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -241,8 +295,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

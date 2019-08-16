@@ -148,6 +148,131 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-布局标签的简单思考" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/04/11/布局标签的简单思考/">布局标签的简单思考</a>
+    </h1>
+  
+
+        
+        <a href="/2013/04/11/布局标签的简单思考/" class="archive-article-date">
+  	<time datetime="2013-04-11T12:19:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2013-04-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>   一直在用用一些常用的布局标签，include,merge,viewstub，但是否真的了解其原理呢？<br><br>   首先我们用的viewstub实际上就是一个懒加载，为什么这么说呢？来看源码：</p>
+<pre><code>public final class ViewStub extends View {  
+ ......  
+public View inflate() {  
+    final ViewParent viewParent = getParent(); // 1 为什么可以直接获取父视图？  
+
+      // ViewStub的父视图必须是ViewGroup的子类  
+    if (viewParent != null &amp;&amp; viewParent instanceof ViewGroup) {  
+        if (mLayoutResource != 0) { // ViewStub必须设置android:layout属性  
+            final ViewGroup parent = (ViewGroup) viewParent;  
+            final LayoutInflater factory;  
+            if (mInflater != null) {  
+                factory = mInflater;  
+            } else {  
+                factory = LayoutInflater.from(mContext);  
+            }  
+            // 2 inflate被加载视图   
+            final View view = factory.inflate(mLayoutResource, parent,  
+                    false);  
+
+            if (mInflatedId != NO_ID) {  
+                view.setId(mInflatedId);  
+            }  
+
+            // 从父视图中获取当前ViewStub在父视图中的位置  
+            final int index = parent.indexOfChild(this);  
+            // 当前ViewStub也是个View仅仅只是用来占位，所以先把占位的ViewStub视图删除  
+            parent.removeViewInLayout(this);  
+
+            // 3 此处获取的是ViewStub上面设置的参数  
+            final ViewGroup.LayoutParams layoutParams = getLayoutParams();  
+            if (layoutParams != null) {  
+                parent.addView(view, index, layoutParams);  
+            } else {  
+                parent.addView(view, index);  
+            }  
+
+            // 目的是在复写的setVisibility方法中使用  
+            // 因为ViewStub.setVisibility操作的是被加载视图并非当前ViewStub视图  
+            mInflatedViewRef = new WeakReference&lt;View&gt;(view);  
+
+            // 调用监听  
+            if (mInflateListener != null) {  
+                mInflateListener.onInflate(this, view);  
+            }  
+
+            // 返回被加载视图，如果不需要当前可以忽略此返回对象  
+            return view;  
+        } else {  
+            throw new IllegalArgumentException(&quot;ViewStub must have a valid layoutResource&quot;);  
+        }  
+    } else {  
+        throw new IllegalStateException(&quot;ViewStub must have a non-null ViewGroup viewParent&quot;);  
+    }  
+}  
+ ...... 
+  } 
+</code></pre><p>   可以发现，它构造时：<br>   <pre><br>   public ViewStub(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {<br>        super(context);<br>        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ViewStub, defStyleAttr, defStyleRes);<br>        mInflatedId = a.getResourceId(R.styleable.ViewStub_inflatedId, NO_ID);<br>        mLayoutResource = a.getResourceId(R.styleable.ViewStub_layout, 0);<br>        mID = a.getResourceId(R.styleable.ViewStub_id, NO_ID);<br>        a.recycle();<br>        setVisibility(GONE);<br>        setWillNotDraw(true);<br>    }<br> </pre></p>
+<p>首选设置需要加载的view为gone，setWillNotDraw为true，继承View.java，代表就是不绘制该布局，而我们一般的view设置为gone时，默认会加入布局绘制的，viewstub它真正绘制就是在调用了inflate()方法时，viewparent就把它加入进来。<br>merge我们也经常用到，它起的作用也很简单，减少层级，看看主要源码:<br>   <pre><br>     mLayout = new LinearLayout(this);<br>     mLayout.setOrientation(LinearLayout.VERTICAL);<br>  LayoutInflater.from(this).inflate(R.layout.merge_tag, mLayout);<br>    setContentView(mLayout);<br> </pre></p>
+<p> 另外我们经常会加一个空格空间，经常的做法就是一个没有文字的textview来做，，这样它会参与视图的绘制，实际上我们可以用Space来做，看他的源码可以发现，它的ondraw方法为空，确实很轻量级。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/移动开发/" class="article-tag-list-link color5">移动开发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/android/" class="article-tag-list-link color3">android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2013/04/11/布局标签的简单思考/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-http头信息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -463,7 +588,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 raylee
+    		&copy; 2019 raylee
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -542,23 +667,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">android ndk</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">service</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">android</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">numpy</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">android ndk</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -570,6 +687,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -578,11 +699,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">service</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">音视频</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
+                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -594,11 +723,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -618,18 +743,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">tcp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">qt</a>
               </li>
              
@@ -642,7 +755,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">tcp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
               </li>
             
             <div class="clearfix"></div>
