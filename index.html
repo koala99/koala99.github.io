@@ -211,6 +211,81 @@
 
 
   
+    <article id="post-SharedPreference-oom小记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/13/SharedPreference-oom小记/">SharedPreference oom小计</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/13/SharedPreference-oom小记/" class="archive-article-date">
+  	<time datetime="2018-07-13T13:04:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>调用 apply的时候会出现：</p>
+<pre><code>public void apply() {
+        final MemoryCommitResult mcr = commitToMemory();
+        final Runnable awaitCommit = new Runnable() {
+                public void run() {
+                    try {
+                        mcr.writtenToDiskLatch.await();
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+        };
+        //在这里添加到QueuedWork的等待完成队列里
+        QueuedWork.add(awaitCommit);
+        // ...
+        SharedPreferencesImpl.this.enqueueDiskWrite(mcr, postWriteRunnable);
+         // ...
+         }
+</code></pre><p>  然后在关闭activity的时候会调用 </p>
+<pre><code>QueueWork.waitToFinish
+</code></pre><p>  这个地方会阻塞activity关闭，所以最后重新在线程池中执行 commit操作，commit操作有返回值，会阻塞</p>
+<p>正确使用的建议<br><br>1、不要存放大的key和value在SharedPreferences中，否则会一直存储在内存中得不到释放，内存使用过高会频发引发GC，导致界面丢帧甚至ANR。</p>
+<p>2、不相关的配置选项最好不要放在一起，单个文件越大读取速度则越慢。</p>
+<p>3、读取频繁的key和不频繁的key尽量不要放在一起（如果整个文件本身就较小则忽略，为了这点性能添加维护得不偿失）。</p>
+<p>4、不要每次都edit，因为每次都会创建一个新的EditorImpl对象，最好是批量处理统一提交。否则edit().commit每次创建一个EditorImpl对象并且进行一次IO操作，严重影响性能。</p>
+<p>5、commit发生在UI线程中，apply发生在工作线程中，对于数据的提交最好是批量操作统一提交。虽然apply发生在工作线程（不会因为IO阻塞UI线程）但是如果添加任务较多也有可能带来其他严重后果（参照ActivityThread源码中handleStopActivity方法实现）。6、尽量不要存放json和html，这种可以直接文件缓存。7、不要指望这货能够跨进程通信 Context.PROCESS 。8、最好提前初始化SharedPreferences，避免SharedPreferences第一次创建时读取文件线程未结束而出现等待情况。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/13/SharedPreference-oom小记/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
     <article id="post-ffmpeg使用中的记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -934,110 +1009,6 @@ let rect = CGRect.zero // 等同与 CGRectZero
 
 
   
-    <article id="post-knn算法和应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/11/knn算法和应用/">机器学习入门系列_knn</a>
-    </h1>
-  
-
-        
-        <a href="/2015/04/11/knn算法和应用/" class="archive-article-date">
-  	<time datetime="2015-04-11T12:56:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-04-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>  knn也就是K最近邻算法，采用测量不同特征值之间的距离方法进行分类，具体操作流程也就分以下几步：<br><br>  <pre><br>  1:计算已知类别数据集中的点与当前点的距离<br>  2：按照距离递增排序<br>  3：选取与当前距离最小的k个点<br>  4：确认前k个点所在类别的出现频率<br>  5：返回前k个点出现频率最高的类别作为当前点的预测分类<br>  </pre><br>  书上第一张也给出了一个简单的knn测试,里面引用了numpy库,源码如下:<br>  <pre><br>from numpy import *<br>import operator<br>from os import listdir<br>def classify0(inX, dataSet, labels, k):</pre></p>
-<pre><code># 计算距离
-#获取dataSet的长度
-dataSetSize = dataSet.shape[0]
-#生成新的矩阵，减去存在的矩阵
-diffMat = tile(inX, (dataSetSize,1)) - dataSet
-#矩阵元素平方
-sqDiffMat = diffMat**2
-#axis=1 行相加， axis=0 列相加
-sqDistances = sqDiffMat.sum(axis=1)
-#开方
-distances = sqDistances**0.5
-#函数是将x中的元素从小到大排列，提取其对应的index(索引)
-sortedDistIndicies = distances.argsort()
-print(sortedDistIndicies)
-#选择距离最小的k个点
-classCount={}          
-for i in range(k):
-    print(sortedDistIndicies[i])
-    voteIlabel = labels[sortedDistIndicies[i]]
-    print(voteIlabel)
-    classCount[voteIlabel] = classCount.get(voteIlabel,0) + 1
-    print(classCount)
-#排序
-sortedClassCount = sorted(classCount.iteritems(), key=operator.itemgetter(1), reverse=True)
-print(sortedClassCount)
-return sortedClassCount[0][0]
-</code></pre><p>def createDataSet():<br>    group = array([[1.0,1.1],[1.0,1.0],[0,0],[0,0.1]])<br>    labels = [‘A’,’A’,’B’,’C’]<br>    return group, labels<br>if <strong>name</strong> == “<strong>main</strong>“:<br>    data = createDataSet()<br>    print(classify0([0,0],data[0],data[1],3))<br> </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/机器学习/" class="article-tag-list-link color5">机器学习</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/knn/" class="article-tag-list-link color4">knn</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2015/04/11/knn算法和应用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1151,7 +1122,35 @@ return sortedClassCount[0][0]
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">service</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">ubuntu</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">并行计算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">cuda</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ios</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">swift</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1163,27 +1162,11 @@ return sortedClassCount[0][0]
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">service</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">android</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">音视频</a>
+                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">hashmap</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ios</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">swift</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1199,14 +1182,6 @@ return sortedClassCount[0][0]
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">并行计算</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">cuda</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">qt</a>
               </li>
              
@@ -1219,19 +1194,15 @@ return sortedClassCount[0][0]
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">tcp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">opencv ubuntu</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">垃圾回收</a>
+                <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ios,swift</a>
+                <a href="javascript:void(0)" class="js-tag color4">tcp</a>
               </li>
             
             <div class="clearfix"></div>

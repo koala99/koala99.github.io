@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://koala99.github.io">
-  <title>Archives: 2012/11 | Whatever is worth doing is worth doing well</title>
+  <title>SharedPreference oom小计 | Whatever is worth doing is worth doing well</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Whatever is worth doing is worth doing well">
-<meta property="og:url" content="https://koala99.github.io/archives/2012/11/index.html">
+  <meta name="description" content="调用 apply的时候会出现： public void apply() {         final MemoryCommitResult mcr = commitToMemory();         final Runnable awaitCommit = new Runnable() {                 public void run() {">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SharedPreference oom小计">
+<meta property="og:url" content="https://koala99.github.io/2018/07/13/SharedPreference-oom小记/index.html">
 <meta property="og:site_name" content="Whatever is worth doing is worth doing well">
+<meta property="og:description" content="调用 apply的时候会出现： public void apply() {         final MemoryCommitResult mcr = commitToMemory();         final Runnable awaitCommit = new Runnable() {                 public void run() {">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-16T08:19:00.016Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Whatever is worth doing is worth doing well">
+<meta name="twitter:title" content="SharedPreference oom小计">
+<meta name="twitter:description" content="调用 apply的时候会出现： public void apply() {         final MemoryCommitResult mcr = commitToMemory();         final Runnable awaitCommit = new Runnable() {                 public void run() {">
   
     <link rel="alternative" href="/atom.xml" title="Whatever is worth doing is worth doing well" type="application/atom+xml">
   
@@ -146,79 +150,150 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-SharedPreference-oom小记" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2012" class="archive-year">2012</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/11/18/http头信息/" class="archive-article-date">
-  	<time datetime="2012-11-18T08:24:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2012-11-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/11/18/http头信息/">http头信息</a>
+    <h1 class="article-title" itemprop="name">
+      SharedPreference oom小计
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        <a href="/2018/07/13/SharedPreference-oom小记/" class="archive-article-date">
+  	<time datetime="2018-07-13T13:04:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>调用 apply的时候会出现：</p>
+<pre><code>public void apply() {
+        final MemoryCommitResult mcr = commitToMemory();
+        final Runnable awaitCommit = new Runnable() {
+                public void run() {
+                    try {
+                        mcr.writtenToDiskLatch.await();
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+        };
+        //在这里添加到QueuedWork的等待完成队列里
+        QueuedWork.add(awaitCommit);
+        // ...
+        SharedPreferencesImpl.this.enqueueDiskWrite(mcr, postWriteRunnable);
+         // ...
+         }
+</code></pre><p>  然后在关闭activity的时候会调用 </p>
+<pre><code>QueueWork.waitToFinish
+</code></pre><p>  这个地方会阻塞activity关闭，所以最后重新在线程池中执行 commit操作，commit操作有返回值，会阻塞</p>
+<p>正确使用的建议<br><br>1、不要存放大的key和value在SharedPreferences中，否则会一直存储在内存中得不到释放，内存使用过高会频发引发GC，导致界面丢帧甚至ANR。</p>
+<p>2、不相关的配置选项最好不要放在一起，单个文件越大读取速度则越慢。</p>
+<p>3、读取频繁的key和不频繁的key尽量不要放在一起（如果整个文件本身就较小则忽略，为了这点性能添加维护得不偿失）。</p>
+<p>4、不要每次都edit，因为每次都会创建一个新的EditorImpl对象，最好是批量处理统一提交。否则edit().commit每次创建一个EditorImpl对象并且进行一次IO操作，严重影响性能。</p>
+<p>5、commit发生在UI线程中，apply发生在工作线程中，对于数据的提交最好是批量操作统一提交。虽然apply发生在工作线程（不会因为IO阻塞UI线程）但是如果添加任务较多也有可能带来其他严重后果（参照ActivityThread源码中handleStopActivity方法实现）。6、尽量不要存放json和html，这种可以直接文件缓存。7、不要指望这货能够跨进程通信 Context.PROCESS 。8、最好提前初始化SharedPreferences，避免SharedPreferences第一次创建时读取文件线程未结束而出现等待情况。</p>
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/数据结构/" class="article-tag-list-link color5">数据结构</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/java/" class="article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://koala99.github.io/2018/07/13/SharedPreference-oom小记/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2018/10/16/Fresco/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Fresco
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2017/09/30/ffmpeg使用中的记录/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ffmpeg使用中的记录</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -241,8 +316,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
